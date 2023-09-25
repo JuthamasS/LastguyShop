@@ -26,4 +26,6 @@ public partial class Product
     public DateTime? ModifiedDate { get; set; }
 
     public byte? IsDelete { get; set; }
+
+    public int? SafetyStockNumber { get; set; }
 }
