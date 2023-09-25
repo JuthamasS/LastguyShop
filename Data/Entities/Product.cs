@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LastguyShop.Entities;
+namespace LastguyShop.Data.Entities;
 
 public partial class Product
 {
@@ -24,4 +24,6 @@ public partial class Product
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
+
+    public byte? IsDelete { get; set; }
 }

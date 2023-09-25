@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using LastguyShop.Entities;
+using LastguyShop.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace LastguyShop.Context;
+namespace LastguyShop.Data.Context;
 
 public partial class LastguyShopContext : DbContext
 {
@@ -16,9 +16,13 @@ public partial class LastguyShopContext : DbContext
     {
     }
 
+    public virtual DbSet<FileUpload> FileUploads { get; set; }
+
     public virtual DbSet<HistoryPrice> HistoryPrices { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
+
+    public virtual DbSet<ProductFile> ProductFiles { get; set; }
 
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
@@ -28,6 +32,28 @@ public partial class LastguyShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<FileUpload>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("FileUpload");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
+            entity.Property(e => e.FileName)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.FileNameContent)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.FolderPath)
+                .HasMaxLength(200)
+                .IsUnicode(false);
+            entity.Property(e => e.Mimetype)
+                .HasMaxLength(200)
+                .IsUnicode(false)
+                .HasColumnName("MIMEType");
+        });
+
         modelBuilder.Entity<HistoryPrice>(entity =>
         {
             entity
@@ -51,6 +77,15 @@ public partial class LastguyShopContext : DbContext
             entity.Property(e => e.Name).HasMaxLength(50);
             entity.Property(e => e.Note).HasMaxLength(200);
             entity.Property(e => e.Unit).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<ProductFile>(entity =>
+        {
+            entity
+                .HasNoKey()
+                .ToTable("ProductFile");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("date");
         });
 
         modelBuilder.Entity<Supplier>(entity =>

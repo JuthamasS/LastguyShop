@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace LastguyShop.Entities;
+namespace LastguyShop.Data.Entities;
 
 public partial class Supplier
 {
@@ -22,4 +22,6 @@ public partial class Supplier
     public DateTime? CreatedDate { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
+
+    public byte? IsDelete { get; set; }
 }

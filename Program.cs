@@ -9,6 +9,9 @@ namespace LastguyShop
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
+            // Add DbContext
+            //builder.Services.AddDbContext<LastguyShop>
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
