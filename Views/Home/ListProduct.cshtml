@@ -4,3 +4,29 @@
 @{
 }
 <div><h1>List Product</h1></div>
+<div class="container">
+    <form>
+        <div class="row">
+            <div class="col-3">
+                <input type="text" placeholder="ชื่อสินค้า" class="form-control" />
+            </div>
+            <div class="col-3">
+                <input type="text" placeholder="ชื่อร้านค้า" class="form-control" />
+            </div>
+            <div class="col-3">
+                <select name="cars" id="cars" placeholder="ประเภทสินค้า" class="form-select">
+                    <option value="ประเภทสินค้า">ประเภทสินค้า</option>
+                </select>
+            </div>
+            <div class="col-2">
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="NearlyOutOfStock">
+                    <label class="custom-control-label" for="NearlyOutOfStock">สินค้าใกล้หมด</label>
+                </div>
+            </div>
+            <div class="col-1">
+                <button class="btn btn-primary" style="width:200px">ค้นหา</button>
+            </div>
+        </div>
+    </form>
+</div>
