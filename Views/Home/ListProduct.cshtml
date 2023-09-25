@@ -1,7 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-
+@model LastguyShop.Models.Product.ListProduct
 @{
 }
 <div>
@@ -32,4 +32,38 @@
             </div>
         </div>
     </form>
+</div>
+<div class="row" style="margin-top:80px; margin-bottom:20px">
+    <div style="text-align:right">
+        <a asp-area="" asp-controller="Home" asp-action="InsertProduct"><button type="button" class="btn btn-success">เพิ่มสินค้า</button></a>
+    </div>
+</div>
+<div>
+    <table class="table table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">ลำดับ</th>
+      <th scope="col">ชื่อสินค้า</th>
+      <th scope="col">ราคา</th>
+      <th scope="col">ชื่อร้าน</th>
+      <th scope="col">ประเภทสินค้า</th>
+      <th scope="col">จำนวน</th>
+      <th scope="col">จัดการสินค้า</th>
+    </tr>
+  </thead>
+  <tbody>
+    @*@foreach (var productItem in Model)
+    {
+        <tr>
+            <th scope="row">1</th>
+                    <td>productItem.</td>
+            <td>800</td>
+            <td>น็อตน็อต</td>
+            <td>เหล็ก</td>
+            <td>10</td>
+            <td>กล่อง</td>
+        </tr>
+    }*@
+  </tbody>
+</table>
 </div>
