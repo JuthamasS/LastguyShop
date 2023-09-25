@@ -1,3 +1,6 @@
+using LastguyShop.Data.Context;
+using Microsoft.EntityFrameworkCore;
+
 namespace LastguyShop
 {
     public class Program
@@ -10,7 +13,8 @@ namespace LastguyShop
             builder.Services.AddControllersWithViews();
 
             // Add DbContext
-            //builder.Services.AddDbContext<LastguyShop>
+            builder.Services.AddDbContext<LastguyShopContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("LastgutShopConnectionString")));
 
             var app = builder.Build();
 
