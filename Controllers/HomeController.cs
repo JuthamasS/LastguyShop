@@ -49,9 +49,23 @@ namespace LastguyShop.Controllers
             return View(objectProductList);
         }
 
-        public IActionResult InsertProduct()
+        public IActionResult InsertProduct(ManageProduct product)
         {
-            return View();
+            var ProductModel = new Product
+            {
+
+            };
+
+            _lastguyShopContext.Products.Add(ProductModel);
+            var status = _lastguyShopContext.SaveChanges();
+            if (status > 0)
+            {
+                return RedirectToAction("ListProduct");
+            }
+            else
+            {
+                return RedirectToAction("ListProduct");
+            }
         }
 
         public IActionResult ManageProduct()
