@@ -46,7 +46,7 @@ namespace LastguyShop.Controllers
                     });
                 }
             }
-            return View();
+            return View(objectProductList);
         }
 
         public IActionResult InsertProduct()

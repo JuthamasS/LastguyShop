@@ -14,17 +14,12 @@
 
         //Supplier Data
         public int supplierId { get; set; }
-
         public string? supplierName { get; set; }
-
         public string? address { get; set; }
-
         public string? phoneNumber { get; set; }
-
+        public string? contactName { get; set; }
         public string? officeHours { get; set; }
-
         public string? workday { get; set; }
-
         public string? lineId { get; set; }
     }
 }

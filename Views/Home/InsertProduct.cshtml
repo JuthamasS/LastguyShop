@@ -4,10 +4,57 @@
 @model LastguyShop.Models.Product.ManageProduct
 @{
 }
-<div>
-    <h3>เพิ่มรายการสินค้า</h3>
+<div style="margin-bottom:20px">
+    <h4>เพิ่มรายการสินค้า</h4>
 </div>
-<form action="InsertAction" method="post">
-    <label>รหัสผู้จำหน่าย</label>
-    @*<input class="form-control" type="text" asp-for="VenCode" />*@
-</form>
+<div class="card rounded">
+    <div class="card-body">
+        <form action="InsertAction" method="post">
+            <div class="card rounded">
+                <div class="card-body">
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="productName" placeholder="ชื่อสินค้า" />
+
+                    <label>ราคา</label>
+                    <input class="form-control" type="text" asp-for="price" placeholder="ราคา" />
+
+                    <label>จำนวนคงเหลือ</label>
+                    <input class="form-control" type="text" asp-for="totalAmount" placeholder="ชื่อสินค้า" />
+
+                    <label>หน่วยสินค้า</label>
+                    <input class="form-control" type="text" asp-for="unit" placeholder="ชื่อสินค้า" />
+
+                    <label>รายละเอียด</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>หมายเหตุ</label>
+                    <input class="form-control" type="text" asp-for="note" placeholder="หมายเหตุ" />
+                </div>
+            </div>
+            <div class="card rounded">
+                <div class="card-body">
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+
+                    <label>ชื่อสินค้า</label>
+                    <input class="form-control" type="text" asp-for="description" placeholder="ชื่อสินค้า" />
+                </div>
+            </div>
+            <div class="">
+                    <button class="btn btn-primary" style="width:200px">บันทึก</button>
+                </div>
+        </form>
+    </div>
+</div>
