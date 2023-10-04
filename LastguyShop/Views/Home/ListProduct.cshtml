@@ -22,42 +22,57 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+    .noneDeco {
+        text-decoration:none;
+    }
+
+    .button-soft-green{
+        background-color:#8cde98;
+    }
+
+    .button-soft-blue {
+        background-color: #789cd6;
+    }
+
+    .button-soft-gray {
+        background-color: #b8bfba;
+    }
 </style>
 <div>
     <h3>รายการสินค้า</h3>
 </div>
-<form id="searchProduct">
-    <div class="container card">
+    <div class="card">
         <div class="card-body">
             <div class="row">
                 <div class="col-6">
                     <input type="text" placeholder="ชื่อสินค้า" class="form-control" id="SearchName"/>
                 </div>
                 <div class="col-2">
-                    <div class="custom-control custom-checkbox" style="text-align:center; margin-top:10px;">
-                        <input type="checkbox" class="custom-control-input largerCheckbox" id="SearchNearlyOutOfStock">
-                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าใกล้หมด</label>
+                    <div class="custom-control custom-checkbox" style="text-align:center; margin-top:5px;">
+                    <input type="checkbox" class="custom-control-input largerCheckbox" id="SearchNearlyOutOfStock" style="margin-right:10px;">สินค้าใกล้หมด
                     </div>
                 </div>
                 <div class="col-2">
-                    <div class="custom-control custom-checkbox" style="text-align:center; margin-top:10px;">
-                        <input type="checkbox" class="custom-control-input largerCheckbox" id="SearchFavorite">
-                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าที่ถูกใจ</label>
+                    <div class="custom-control custom-checkbox" style="text-align:left; margin-top:5px;">
+                        <input type="checkbox" class="custom-control-input largerCheckbox" id="SearchFavorite" style="margin-right:10px;">สินค้าที่ถูกใจ
                     </div>
                 </div>
-                <div class="col-2" style="text-align:right; padding-right:0px">
-                    <button type="submit" class="btn btn-primary" style="width:100%;" onclick="SearchProduct()">ค้นหา</button>
+                <div class="col-2" style="text-align:center; padding-right:10px">
+                    <button class="btn button-soft-blue" style="width:100%;" onclick="SearchProduct()">ค้นหา</button>
                 </div>
             </div>
         </div>
     </div>
-</form>
+
 <div class="card" style="margin-top:20px;">
     <div class="card-body">
         <div style="margin-top:20px; margin-bottom:20px;">
             <div style="text-align:right;">
+                <a asp-area="" asp-controller="Home" asp-action="InsertProduct" class="noneDeco">
+                    <button type="button" class="btn button-soft-green" style="width:17%">รายงานสินค้าใกล้หมด</button>
+                </a>
                 <a asp-area="" asp-controller="Home" asp-action="InsertProduct">
-                    <button type="button" class="btn btn-success" style="width:16%">เพิ่มสินค้า</button>
+                    <button type="button" class="btn button-soft-green" style="width:15%;">เพิ่มสินค้า</button>
                 </a>
             </div>
         </div>
@@ -67,13 +82,13 @@
                     <tr>
                         <th scope="col" style="text-align:center; width:1.65%;">ลำดับ</th>  @*width:20px;*@
                         <th scope="col" style="text-align:center; width:20%;">ชื่อสินค้า</th> @*width:300px;*@
-                        <th scope="col" style="text-align:center; width:5.79%;">ราคา</th> @*width:70px;*@
-                        <th scope="col" style="text-align:center; width:5.79%;">จำนวน</th> @*width:70px;*@
-                        <th scope="col" style="text-align:center; width:8.26%;">หน่วยสินค้า</th> @*width:100px;*@
-                        <th scope="col" style="text-align:center; width:5.26%;">สถานะ</th> @*width:100px;*@
-                        <th scope="col" style="text-align:center; width:28.93%;">หมายเหตุ</th> @*width:350px;*@
-                        <th scope="col" style="text-align:center; width:12.40%;">ดูรายละเอียด</th> @*width:150px;*@
-                        <th scope="col" style="text-align:center; width:12.40%;">จัดการสินค้า</th> @*width:150px;*@
+                        <th scope="col" style="text-align:center; width:6%;">ราคา</th> @*width:70px;*@
+                        <th scope="col" style="text-align:center; width:6%;">จำนวน</th> @*width:70px;*@
+                        <th scope="col" style="text-align:center; width:9%;">หน่วยสินค้า</th> @*width:100px;*@
+                        <th scope="col" style="text-align:center; width:7%;">สถานะ</th> @*width:100px;*@
+                        <th scope="col" style="text-align:center; width:29%;">หมายเหตุ</th> @*width:350px;*@
+                        <th scope="col" style="text-align:center; width:10%;">ดูรายละเอียด</th> @*width:150px;*@
+                        <th scope="col" style="text-align:center; width:10%;">จัดการสินค้า</th> @*width:150px;*@
                     </tr>
                 </thead>
                 <tbody>
@@ -91,12 +106,14 @@
                                 <td>@productItem.note</td>
                                 <td style="text-align:center">
                                     <a href="@Url.Action("DetailProduct","Home",new {productId=productItem.productId})">
-                                        <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
+                                        ดูรายละเอียด
+                                        @*<button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>*@
                                     </a>
                                 </td>
                                 <td style="text-align:center">
                                     <a href="@Url.Action("ManageProduct","Home",new {productId=productItem.productId})">
-                                        <button type="button" class="btn btn-primary text-center">จัดการสินค้า</button>
+                                        จัดการสินค้า
+                                        @*<button type="button" class="btn btn-primary text-center">จัดการสินค้า</button>*@
                                     </a>
                                 </td>
                             </tr>
@@ -113,39 +130,65 @@
         </div>
     </div>
 </div>
-
 <script>
+    
     var SearchProduct = function(){
-        var SearchName = $('#searchProduct').val();
-        var SearchNearlyOutOfStock = $('#SearchNearlyOutOfStock').val();
-        var SearchFavorite = $('#SearchFavorite').val();
+        //swal({
+        //    title: "ยืนยันลบรายการสินค้า ",
+        //    text: "ยืนยันลบรายการสินค้า ",
+        //    confirmButtonText: "ใช่",
+        //    type:"warning",
+        //    cancelButtonText: "ใช่",
+        //    showCancelButton:true
+        //},
+        //function(isConfirm){
+        //    if(isConfirm){
+        //        console.log("submit");
+        //            var data = document.getElementById('SearchName123');
+        //            var a = date.val;
+        //            console.log(a);
+        //            $.ajax({
+        //                type:"Post",
+        //                url:"/Home/ListProduct",
+        //                data: dataSearch,
+        //                success:function(response){
+        //                    swal();
+        //                    alert("success");
+        //                    console.log(response);
+        //                },error:function(error){
+        //                    swal();
+        //                    alert("error");
+        //                    console.log(response);
+        //                }
+        //            });
+        //    }else{
+        //        console.log("cancel");
+        //    }
+        //});
+
+        var SearchName = document.getElementById('SearchName').value;
+        var SearchNearlyOutOfStock = document.getElementById('SearchNearlyOutOfStock').checked;
+        var SearchFavorite = document.getElementById('SearchFavorite').checked;
         var dataSearch = {
-            name = SearchName,
-            isNearly = SearchNearlyOutOfStock,
-            isFavorite = SearchFavorite
-        }
-        console.log("hi");
-        console.log("data : " + dataSearch);
+            name: SearchName,
+            isNearly: SearchNearlyOutOfStock,
+            isFavorite: SearchFavorite
+        };
+        console.log(dataSearch);
         $.ajax({
-            type:"Post",
-            url:"/Home/ListProduct",
+            type:"Get",
+            url:"/Home/SearchProduct",
             data: dataSearch,
             success:function(response){
-                alert("success");
-                console.log(response);
+                document.getElementById('SearchName').val("");
+                document.getElementById('SearchNearlyOutOfStock').checkd = false;
+                document.getElementById('SearchFavorite').checkd = false;
+            },error:function(error){
+                document.getElementById('SearchName').value = "";
+                document.getElementById('SearchNearlyOutOfStock').checkd = false;
+                document.getElementById('SearchFavorite').checkd = false;
             }
         });
-    }
+    };
 </script>
 
-@*<a asp-area="" asp-controller="Home" asp-action="DetailProduct/@productItem.productId">
-                                <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
-                            </a>*@
-
-@*<a href="@Html.ActionLink("", "DetailProduct", "Home", null, new { productId=productItem.productId })">
-                                <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
-                            </a>*@
-
-@*<input type="button"
-       value="ดูรายละเอียด"
-       onclick="location.href='<%: Url.Action(" DetailProduct", "Home" ,new { productId=@productItem.productId}) %>*@

@@ -23,11 +23,16 @@ namespace LastguyShop.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("ListProduct");
+            return RedirectToAction("ListProduct",new { name = "", isNearly = false, isFavorite = false });
         }
 
-        //[HttpPost]
         public IActionResult ListProduct(string name, bool isNearly, bool isFavorite)
+        {
+            var list = SearchProduct(name, isNearly, isFavorite);
+            return View(list);
+        }
+
+        public List<ListProduct> SearchProduct(string name, bool isNearly, bool isFavorite)
         {
             var objectProduct = _lastguyShopContext.Products.Where(i => i.IsDelete == 0).AsEnumerable();
             var objectPrice = _lastguyShopContext.HistoryPrices.Where(i => i.IsDelete == 0).OrderByDescending(o => o.CreatedDate).ToList();
@@ -79,7 +84,7 @@ namespace LastguyShop.Controllers
 
                 }
             }
-            return View(objectProductList);
+            return objectProductList;
         }
 
         #endregion
