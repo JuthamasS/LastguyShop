@@ -1,0 +1,80 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<LastguyShop.Models.Product.ListProduct>
+@{
+}
+<div style="margin-bottom:20px">
+    <h4>รายการสินค้า</h4>
+</div>
+<div class="card rounded">
+    <div class="card-body">
+        <form>
+            <div class="row">
+                <div class="col-6">
+                    <input type="text" placeholder="ชื่อสินค้า" class="form-control" />
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-checkbox" style="text-align:center">
+                        <input type="checkbox" class="custom-control-input" id="NearlyOutOfStock">
+                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าใกล้หมด</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-checkbox" style="text-align:center">
+                        <input type="checkbox" class="custom-control-input" id="NearlyOutOfStock">
+                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าที่ถูกใจ</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <button class="btn btn-primary" style="width:200px">ค้นหา</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="card rounded" style="margin-top:20px;">
+    <div class="card-body">
+        <div class="row" style="margin-top:20px; margin-bottom:20px;">
+    <div style="text-align:right">
+                <a asp-area="" asp-controller="Home" asp-action="InsertProduct"><button type="button" class="btn btn-success"><i class="fa-solid fa-hammer"></i>เพิ่มรายการสินค้า</button></a>
+    </div>
+</div>
+<div>
+    <table class="table table-bordered table-hover rounded">
+        <thead>
+            <tr class="bg-primary bg-opacity-50">
+                <th scope="col">ลำดับ</th>
+                <th scope="col">ชื่อสินค้า</th>
+                <th scope="col">ราคา</th>
+                <th scope="col">จำนวน</th>
+                <th scope="col">หน่วยสินค้า</th>
+                <th scope="col">จัดการสินค้า</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null)
+            {
+                @foreach (var productItem in Model)
+                {
+                <tr>
+                    <th scope="row">1</th>
+                    <td>@productItem.productName</td>
+                    <td>@productItem.price</td>
+                    <td>@productItem.totalAmount</td>
+                    <td>@productItem.unit</td>
+                    <td><i class="fa-solid fa-hammer"></i></td>
+                </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" style="text-align:center">ไม่พบข้อมูล</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+    </div>
+</div>
