@@ -1,0 +1,78 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model LastguyShop.Models.Product.ManageProduct
+@{
+    var minusSafty = @Model.product.totalAmount - @Model.product.SafetyStockNumber;
+    var pgTotal = ((minusSafty * 100) / @Model.product.totalAmount);
+    var pgSafty = ((@Model.product.SafetyStockNumber * 100) / @Model.product.totalAmount);
+    var pgFill = 100 - (pgTotal + pgSafty);
+    var pgTotalStyleTxt = "width:" + (pgTotal + pgFill) + "%";
+    var pgSaftyStyleTxt = "width:" + pgSafty + "%";
+    var pgfillStyleTxt = "width:" + pgFill + "%";
+    
+}
+@{
+}
+<div class="row">
+    <div class="col-9">
+        <div style="width:100%; text-align:left; margin-top:20px;" class="col-3">
+            <h3>@Model.product.productName</h3>
+        </div>
+    </div>
+    <div class="col-3">
+        <div style="width:100%; text-align:right; margin-bottom:20px;">
+            <a asp-area="" asp-controller="Home" asp-action="ListProduct">
+                <button type="submit" class="btn" style="margin-top:20px; text-align:center; width:70%; background-color:darkgray;">กลับ</button>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="progress">
+            <div class="progress-bar bg-danger" role="progressbar" style="@pgSaftyStyleTxt" aria-valuenow="@pgSafty" aria-valuemin="0" aria-valuemax="100">@Model.product.SafetyStockNumber</div>
+            <div class="progress-bar bg-primary" role="progressbar" style="@pgTotalStyleTxt" aria-valuenow="@pgTotal" aria-valuemin="0" aria-valuemax="100">@Model.product.totalAmount</div>
+        </div>
+        @*<div class="progress">
+            <div class="progress-bar progress-bar-success" role="progressbar" style="background-color:darkgoldenrod @pgSaftyStyleTxt">
+                @(Model.product.SafetyStockNumber)
+            </div>
+            <div class="progress-bar progress-bar-success" role="progressbar" style="@pgTotalStyleTxt">
+                @Model.product.totalAmount
+            </div>
+        </div>*@
+    </div>
+</div>
+<div class="row" style="margin-top: 50px;">
+    <div class="col-6">
+        <div>
+            <h5>ข้อมูลสินค้า</h5>
+        </div>
+        <div class="card form-control">
+            <h6>ชื่อสินค้า : @(Model.product.productName)</h6>
+            <h6>ราคา : @(Model.product.price)</h6>
+            <h6>จำนวนคงเหลือ : @(Model.product.totalAmount)</h6>
+            <h6>จำนวนคงคลังขั้นต่ำ : @(Model.product.SafetyStockNumber)</h6>
+            <h6>หน่วยสินค้า : @(Model.product.unit)</h6>
+            <h6>หมายเหตุ : @(Model.product.note)</h6>
+            <h6>รายละเอียด : @(Model.product.description)</h6>
+        </div>
+    </div>
+    <div class="col-6">
+        <div >
+            <h5>ข้อมูลร้านค้า</h5>
+        </div>
+        <div class="card form-control">
+            <h6>ชื่อร้าน : @(Model.supplier.supplierName)</h6>
+            <h6>ที่อยู่ : @(Model.supplier.address)</h6>
+            <h6>เบอร์โทร : @(Model.supplier.phoneNumber)</h6>
+            <h6>ชื่อผู้ติดต่อ : @(Model.supplier.contactName)</h6>
+            <h6>LineID : @(Model.supplier.lineId)</h6>
+            <h6>วันทำการ : @(Model.supplier.workday)</h6>
+            <h6>เวลาทำการ : @(Model.supplier.officeHours)</h6>
+        </div>
+    </div>
+</div>
+
+

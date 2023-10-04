@@ -1,0 +1,136 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model List<LastguyShop.Models.Product.ListProduct>
+@{
+    var indexRow = 1;
+}
+
+@{
+}
+<div>
+    <h3>รายการสินค้า</h3>
+</div>
+<form id="searchProduct">
+    <div class="container card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <input type="text" placeholder="ชื่อสินค้า" class="form-control" id="SearchName"/>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-checkbox" style="text-align:center">
+                        <input type="checkbox" class="custom-control-input" id="SearchNearlyOutOfStock">
+                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าใกล้หมด</label>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="custom-control custom-checkbox" style="text-align:center">
+                        <input type="checkbox" class="custom-control-input" id="SearchFavorite">
+                        <label class="custom-control-label" for="NearlyOutOfStock">สินค้าที่ถูกใจ</label>
+                    </div>
+                </div>
+                <div class="col-2" style="text-align:right; padding-right:0px">
+                    <button type="submit" class="btn btn-primary" style="width:100%;" onclick="SearchProduct()">ค้นหา</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div class="card" style="margin-top:20px;">
+    <div class="card-body">
+        <div style="margin-top:20px; margin-bottom:20px;">
+            <div style="text-align:right;">
+                <a asp-area="" asp-controller="Home" asp-action="InsertProduct">
+                    <button type="button" class="btn btn-success" style="width:16%">เพิ่มสินค้า</button>
+                </a>
+            </div>
+        </div>
+        <div>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="text-align:center; width:1.65%;">ลำดับ</th>  @*width:20px;*@
+                        <th scope="col" style="text-align:center; width:20%;">ชื่อสินค้า</th> @*width:300px;*@
+                        <th scope="col" style="text-align:center; width:5.79%;">ราคา</th> @*width:70px;*@
+                        <th scope="col" style="text-align:center; width:5.79%;">จำนวน</th> @*width:70px;*@
+                        <th scope="col" style="text-align:center; width:8.26%;">หน่วยสินค้า</th> @*width:100px;*@
+                        <th scope="col" style="text-align:center; width:5.26%;">สถานะ</th> @*width:100px;*@
+                        <th scope="col" style="text-align:center; width:28.93%;">หมายเหตุ</th> @*width:350px;*@
+                        <th scope="col" style="text-align:center; width:12.40%;">ดูรายละเอียด</th> @*width:150px;*@
+                        <th scope="col" style="text-align:center; width:12.40%;">จัดการสินค้า</th> @*width:150px;*@
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        @foreach (var productItem in Model)
+                        {
+                            <tr>
+                                <th scope="row" style="text-align:center">@(indexRow++)</th>
+                                <td>@productItem.productName</td>
+                                <td style="text-align:center">@productItem.price</td>
+                                <td style="text-align:center">@productItem.totalAmount</td>
+                                <td style="text-align:center">@productItem.unit</td>
+                                <td style="text-align:center">@productItem.status</td>
+                                <td>@productItem.note</td>
+                                <td style="text-align:center">
+                                    <a href="@Url.Action("DetailProduct","Home",new {productId=productItem.productId})">
+                                        <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
+                                    </a>
+                                </td>
+                                <td style="text-align:center">
+                                    <a href="@Url.Action("ManageProduct","Home",new {productId=productItem.productId})">
+                                        <button type="button" class="btn btn-primary text-center">จัดการสินค้า</button>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <th colspan="8" class="text-center">ไม่มีรายการสินค้า</th>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    var SearchProduct = function(){
+        var SearchName = $('#searchProduct').val();
+        var SearchNearlyOutOfStock = $('#SearchNearlyOutOfStock').val();
+        var SearchFavorite = $('#SearchFavorite').val();
+        var dataSearch = {
+            name = SearchName,
+            isNearly = SearchNearlyOutOfStock,
+            isFavorite = SearchFavorite
+        }
+        console.log("hi");
+        console.log("data : " + dataSearch);
+        $.ajax({
+            type:"Post",
+            url:"/Home/ListProduct",
+            data: dataSearch,
+            success:function(response){
+                alert("success");
+                console.log(response);
+            }
+        });
+    }
+</script>
+
+@*<a asp-area="" asp-controller="Home" asp-action="DetailProduct/@productItem.productId">
+                                <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
+                            </a>*@
+
+@*<a href="@Html.ActionLink("", "DetailProduct", "Home", null, new { productId=productItem.productId })">
+                                <button type="button" class="btn btn-primary text-center">ดูรายละเอียด</button>
+                            </a>*@
+
+@*<input type="button"
+       value="ดูรายละเอียด"
+       onclick="location.href='<%: Url.Action(" DetailProduct", "Home" ,new { productId=@productItem.productId}) %>*@

@@ -1,0 +1,95 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model LastguyShop.Models.Product.ManageProduct
+
+@{
+}
+<div class="row">
+    <div class="col-6">
+        <div style="width:100%; text-align:left; margin-top:20px;">
+             <h3>@Model.product.productName</h3>
+        </div>
+    </div>
+    @*<div class="col-2">
+        
+    </div>*@
+    <div class="col-6">
+        <div style="text-align:right; margin-bottom:20px;">
+            <a href="@Url.Action("DeleteProductAction","Home",new {productId=Model.product.productId})" style="text-decoration: none;">
+                <button type="button" class="btn text-center" style="margin-top:20px; width:15%; background-color:#dc3545;">ลบข้อมูล</button>
+            </a>
+            <a asp-area="" asp-controller="Home" asp-action="ListProduct">
+                <button type="button" class="btn text-center" style="margin-top:20px; width:30%; background-color:darkgray;">กลับ</button>
+            </a>
+        </div>
+    </div>
+</div>
+<form action="ManageProductAction" method="post">
+    <div>
+        <h5>ข้อมูลสินค้า</h5>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>ชื่อสินค้า :</label>
+            <input class="form-control" type="text" asp-for="product.productName" placeholder="ชื่อสินค้า" value="@Model.product.productName"/>
+
+            <label>จำนวนคงเหลือ :</label>
+            <input class="form-control" type="text" asp-for="product.totalAmount" placeholder="จำนวนคงเหลือ" value="@Model.product.totalAmount"/>
+
+            <label>หน่วยสินค้า :</label>
+            <input class="form-control" type="text" asp-for="product.unit" placeholder="หน่วยสินค้า" value="@Model.product.unit" />
+
+            <label>หมายเหตุ :</label>
+            <input class="form-control" type="text" asp-for="product.note" placeholder="หมายเหตุ" value="@Model.product.note" />
+        </div>
+        <div class="col-6">
+            <label>ราคา :</label>
+            <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="@Model.product.price" />
+
+            <label>จำนวนคงคลังขั้นต่ำ :</label>
+            <input class="form-control" type="text" asp-for="product.SafetyStockNumber" placeholder="จำนวนคงคลังขั้นต่ำ" value="@Model.product.SafetyStockNumber" />
+
+            <label>รายละเอียด :</label>
+            <input class="form-control" type="text" asp-for="product.description" placeholder="รายละเอียด" value="@Model.product.description" />
+        </div>
+    </div>
+    <div style="margin-top: 50px;">
+        <h5>ข้อมูลร้านค้า</h5>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>ชื่อร้าน :</label>
+            <input class="form-control" type="text" asp-for="supplier.supplierName" placeholder="ชื่อร้าน" value="@Model.supplier.supplierName" />
+
+            <label>เบอร์โทร :</label>
+            <input class="form-control" type="text" asp-for="supplier.phoneNumber" placeholder="เบอร์โทร" value="@Model.supplier.phoneNumber" />
+
+            <label>วันทำการ :</label>
+            <input class="form-control" type="text" asp-for="supplier.workday" placeholder="วันทำการ" value="@Model.supplier.workday" />
+
+            <label>LineID :</label>
+            <input class="form-control" type="text" asp-for="supplier.lineId" placeholder="LineID" value="@Model.supplier.lineId" />
+        </div>
+        <div class="col-6">
+            <label>ที่อยู่ :</label>
+            <input class="form-control" type="text" asp-for="supplier.address" placeholder="ที่อยู่" value="@Model.supplier.address" />
+
+            <label>ชื่อผู้ติดต่อ :</label>
+            <input class="form-control" type="text" asp-for="supplier.contactName" placeholder="ชื่อผู้ติดต่อ" value="@Model.supplier.contactName" />
+
+            <label>เวลาทำการ :</label>
+            <input class="form-control" type="text" asp-for="supplier.officeHours" placeholder="เวลาทำการ" value="@Model.supplier.officeHours" />
+            <input type="hidden" asp-for="product.productId" value="@Model.product.productId">
+        </div>
+    </div>
+    <div style="width:100%; text-align:center;">
+        <button type="submit" class="btn btn-primary" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
+        
+    </div>
+</form>
+<script>
+    var DeleteProduct = function(){
+        var
+    }
+</script>

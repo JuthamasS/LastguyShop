@@ -1,0 +1,14 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "ConnectionStrings": {
+    "LastguyConnectionString": "Data Source=(LocalDB)\\MSSqlLocalDB; Initial Catalog=LastguyShop; Integrated Security=True;"
+    //Scaffold-DbContext "Data Source=(LocalDB)\MSSqlLocalDB; Initial Catalog=LastguyShop; Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Data/Entities" -ContextDir "Data/Context"
+    //Scaffold-DbContext "Data Source=(LocalDB)\MSSqlLocalDB; Initial Catalog=LastguyShop; Integrated Security=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir "Data/Entities" -ContextDir "Data/Context" -t Product -f
+  }
+}

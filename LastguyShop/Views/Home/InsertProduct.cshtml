@@ -1,0 +1,82 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model LastguyShop.Models.Product.ManageProduct
+
+@{
+}
+<div class="row">
+    <div class="col-6">
+        <div style="width:100%; text-align:left;">
+            <h3>เพิ่มรายการสินค้า</h3>
+        </div>
+    </div>
+    <div class="col-6">
+        <div style="width:100%; text-align:right;">
+            <a asp-area="" asp-controller="Home" asp-action="ListProduct">
+                <button type="submit" class="btn" style="margin-top:20px; text-align:center; width:30%; background-color:darkgray;">กลับ</button>
+            </a>
+        </div>
+    </div>
+</div>
+<form action="InsertAction" method="post">
+    <div>
+        <h5>ข้อมูลสินค้า</h5>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>ชื่อสินค้า :</label>
+            <input class="form-control" type="text" asp-for="product.productName" placeholder="ชื่อสินค้า" value=""/>
+
+            <label>จำนวนคงเหลือ :</label>
+            <input class="form-control" type="text" asp-for="product.totalAmount" placeholder="จำนวนคงเหลือ" value="" />
+
+            <label>หน่วยสินค้า :</label>
+            <input class="form-control" type="text" asp-for="product.unit" placeholder="หน่วยสินค้า" value="" />
+
+            <label>หมายเหตุ :</label>
+            <input class="form-control" type="text" asp-for="product.note" placeholder="หมายเหตุ" value=""/>
+        </div>
+        <div class="col-6">
+            <label>ราคา :</label>
+            <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="" />
+
+            <label>จำนวนคงคลังขั้นต่ำ :</label>
+            <input class="form-control" type="text" asp-for="product.SafetyStockNumber" placeholder="จำนวนคงคลังขั้นต่ำ" value="" />
+
+            <label>รายละเอียด :</label>
+            <input class="form-control" type="text" asp-for="product.description" placeholder="รายละเอียด" value="" />
+        </div>
+    </div>
+    <div style="margin-top: 50px;">
+        <h5>ข้อมูลร้านค้า</h5>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <label>ชื่อร้าน :</label>
+            <input class="form-control" type="text" asp-for="supplier.supplierName" placeholder="ชื่อร้าน" value="" />
+
+            <label>เบอร์โทร :</label>
+            <input class="form-control" type="text" asp-for="supplier.phoneNumber" placeholder="เบอร์โทร" value="" />
+
+            <label>วันทำการ :</label>
+            <input class="form-control" type="text" asp-for="supplier.workday" placeholder="วันทำการ" value="" />
+
+            <label>LineID :</label>
+            <input class="form-control" type="text" asp-for="supplier.lineId" placeholder="LineID" value="" />
+        </div>
+        <div class="col-6">
+            <label>ที่อยู่ :</label>
+            <input class="form-control" type="text" asp-for="supplier.address" placeholder="ที่อยู่" value="" />
+
+            <label>ชื่อผู้ติดต่อ :</label>
+            <input class="form-control" type="text" asp-for="supplier.contactName" placeholder="ชื่อผู้ติดต่อ" value="" />
+
+            <label>เวลาทำการ :</label>
+            <input class="form-control" type="text" asp-for="supplier.officeHours" placeholder="เวลาทำการ" value="" />
+        </div>
+    </div>
+    <div style="width:100%; text-align:center;">
+        <button type="submit" class="btn btn-primary" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
+    </div>
+</form>
