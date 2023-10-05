@@ -8,6 +8,7 @@
         //Supplier Data
         public SupplierModel supplier { get; set; } = null;
         public List<PricrModel> price { get; set; } = null;
+        public List<IFormFile> fileUploads { get; set; }
     }
 
     public class ProductModel

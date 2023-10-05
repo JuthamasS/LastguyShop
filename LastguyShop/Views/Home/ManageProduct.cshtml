@@ -51,9 +51,7 @@
     </div>*@
     <div class="col-6">
         <div style="text-align:right; margin-bottom:20px;">
-            <a href="@Url.Action("DeleteProductAction","Home",new {productId=Model.product.productId})" style="text-decoration: none;">
-                <button type="button" class="btn text-center button-soft-red" style="margin-top:20px; width:15%;">ลบข้อมูล</button>
-            </a>
+            <button type="button" class="btn text-center button-soft-red" style="margin-top:20px; width:15%;" onclick="DeleteProduct()">ลบข้อมูล</button>
             <a asp-area="" asp-controller="Home" asp-action="ListProduct">
                 <button type="button" class="btn text-center button-soft-gray" style="margin-top:20px; width:30%;">กลับ</button>
             </a>
@@ -67,7 +65,7 @@
     <div class="row">
         <div class="col-6">
             <label>ชื่อสินค้า :</label>
-            <input class="form-control" type="text" asp-for="product.productName" placeholder="ชื่อสินค้า" value="@Model.product.productName"/>
+            <input class="form-control" type="text" asp-for="product.productName" placeholder="ชื่อสินค้า" value="@Model.product.productName" id="productName"/>
 
             <label>จำนวนคงเหลือ :</label>
             <input class="form-control" type="text" asp-for="product.totalAmount" placeholder="จำนวนคงเหลือ" value="@Model.product.totalAmount"/>
@@ -115,7 +113,7 @@
 
             <label>เวลาทำการ :</label>
             <input class="form-control" type="text" asp-for="supplier.officeHours" placeholder="เวลาทำการ" value="@Model.supplier.officeHours" />
-            <input type="hidden" asp-for="product.productId" value="@Model.product.productId">
+            <input type="hidden" asp-for="product.productId" value="@Model.product.productId" id="productId">
         </div>
     </div>
     <div style="width:100%; text-align:center;">
@@ -125,34 +123,115 @@
 </form>
 <script>
     var DeleteProduct = function(){
+        var pName = document.getElementById('productName').value;
+        var pId = document.getElementById('productId').value;
         swal({
             title: "ยืนยันลบรายการสินค้า",
-            text: "คุณต้องการลบรายการสินค้า " + @Model.product.productName + " ใช่หรือไม่",
+            text: "คุณต้องการลบรายการสินค้า '" + pName + "' ใช่หรือไม่",
             type: "warning",
             confirmButtonText: "ใช่",
             cancelButtonText: "ไม่ใช่",
-            showCancelButton:true
-        },
-        function(isConfirm){
-            if(isConfirm){
-                console.log("submit");
-                    //$.ajax({
-                    //    type:"Post",
-                    //    url:"/Home/ListProduct",
-                    //    data: dataSearch,
-                    //    success:function(response){
-                    //        swal();
-                    //        alert("success");
-                    //        console.log(response);
-                    //    },error:function(error){
-                    //        swal();
-                    //        alert("error");
-                    //        console.log(response);
-                    //    }
-                    //});
-            }else{
-                console.log("cancel");
+            showCancelButton: true
+        }).then((result) =>{
+            if (result.value) {
+               swal({ 
+                    text:"ลบข้อมูลเรียบร้อย",
+                    type:"success"
+                }).then((result) =>{
+                    var dataDelete = {
+                        productId: pId
+                    };
+                    $.ajax({
+                        type: "Post",
+                        url: "/Home/DeleteProductAction",
+                        data: dataDelete,0
+                        success: function (response) {
+                            var dataSearch ={
+                                name:"",
+                                isNearly:false,
+                                isFavorite:false
+                            };
+                            $.ajax({
+                                type: "Get",
+                                url: "/Home/ListProduct",
+                                data: dataSearch,
+                                success: function (response) {
+                                    $("body").html(response);
+                                }, error: function (error) {
+                                    console.log("error");
+                                }
+                            });
+                        }, error: function (error) {
+                            console.log("error");
+                        }
+                    });
+                });
+                
+            } else {
+                swal('ไม่สามารถลบข้อมูลได้', '', 'error');
             }
         });
-    }
+    };
 </script>
+
+@*<a href="@Url.Action("DeleteProductAction","Home",new {productId=Model.product.productId})" style="text-decoration: none;">
+    <button type="button" class="btn text-center button-soft-red" style="margin-top:20px; width:15%;">ลบข้อมูล</button>
+</a>*@
+
+@*//$.ajax({
+                        //    type: "Get",
+                        //    url: "/Home/ListProduct",
+                        //    data: dataSearch,
+                        //    success: function (response) {
+                        //        $("body").html(response);
+                        //    }, error: function (error) {
+                        //        console.log("error");
+                        //    }
+                        //});
+*@
+        @*        //function (isConfirm) {
+        //    console.log("isConfirm : " + isConfirm);
+        //    var dataDelete = {
+        //        productId: pId
+        //    };
+        //    if (isConfirm) {
+        //        console.log("confirm");
+        //        var dataSearch = {
+        //            name: "",
+        //            isNearly: false,
+        //            isFavorite: false
+        //        };
+        //        $.ajax({
+        //            type: "Post",
+        //            url: "/Home/DeleteProductAction",
+        //            data: dataDelete,
+        //            success: function (response) {
+        //                console.log("success");
+        //                $.ajax({
+        //                    type: "Get",
+        //                    url: "/Home/ListProduct",
+        //                    data: dataSearch,
+        //                    success: function (response) {
+        //                        $("body").html(response);
+        //                    }, error: function (error) {
+        //                        console.log("error");
+        //                    }
+        //                });
+        //            }, error: function (error) {
+        //                console.log("error");
+        //                $.ajax({
+        //                    type: "Get",
+        //                    url: "/Home/ListProduct",
+        //                    data: dataSearch,
+        //                    success: function (response) {
+        //                        $("body").html(response);
+        //                    }, error: function (error) {
+        //                        console.log("error");
+        //                    }
+        //                });
+        //            }
+        //        });
+        //    } else {
+        //        console.log("cancel");
+        //    }
+        //})*@

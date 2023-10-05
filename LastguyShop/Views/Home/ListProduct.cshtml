@@ -68,7 +68,7 @@
     <div class="card-body">
         <div style="margin-top:20px; margin-bottom:20px;">
             <div style="text-align:right;">
-                <a asp-area="" asp-controller="Home" asp-action="InsertProduct" class="noneDeco">
+                <a asp-area="" asp-controller="Home" asp-action="ReportProductAction" class="noneDeco">
                     <button type="button" class="btn button-soft-green" style="width:17%">รายงานสินค้าใกล้หมด</button>
                 </a>
                 <a asp-area="" asp-controller="Home" asp-action="InsertProduct">
@@ -77,7 +77,7 @@
             </div>
         </div>
         <div>
-            <table class="table table-bordered">
+            <table id="productTable" class="table table-bordered">
                 <thead>
                     <tr>
                         <th scope="col" style="text-align:center; width:1.65%;">ลำดับ</th>  @*width:20px;*@
@@ -131,9 +131,31 @@
     </div>
 </div>
 <script>
-    
     var SearchProduct = function(){
-        //swal({
+
+        var SearchName = document.getElementById('SearchName').value;
+        var SearchNearlyOutOfStock = document.getElementById('SearchNearlyOutOfStock').checked;
+        var SearchFavorite = document.getElementById('SearchFavorite').checked;
+        var dataSearch = {
+            name: SearchName,
+            isNearly: SearchNearlyOutOfStock,
+            isFavorite: SearchFavorite
+        };
+        
+        $.ajax({
+            type:"Get",
+            url:"/Home/ListProduct",
+            data: dataSearch,
+            success:function(response){
+                $("body").html(response);
+            },error:function(error){
+                console.log("error");
+            }
+        });
+    };
+</script>
+
+       @*         //swal({
         //    title: "ยืนยันลบรายการสินค้า ",
         //    text: "ยืนยันลบรายการสินค้า ",
         //    confirmButtonText: "ใช่",
@@ -164,31 +186,4 @@
         //    }else{
         //        console.log("cancel");
         //    }
-        //});
-
-        var SearchName = document.getElementById('SearchName').value;
-        var SearchNearlyOutOfStock = document.getElementById('SearchNearlyOutOfStock').checked;
-        var SearchFavorite = document.getElementById('SearchFavorite').checked;
-        var dataSearch = {
-            name: SearchName,
-            isNearly: SearchNearlyOutOfStock,
-            isFavorite: SearchFavorite
-        };
-        console.log(dataSearch);
-        $.ajax({
-            type:"Get",
-            url:"/Home/SearchProduct",
-            data: dataSearch,
-            success:function(response){
-                document.getElementById('SearchName').val("");
-                document.getElementById('SearchNearlyOutOfStock').checkd = false;
-                document.getElementById('SearchFavorite').checkd = false;
-            },error:function(error){
-                document.getElementById('SearchName').value = "";
-                document.getElementById('SearchNearlyOutOfStock').checkd = false;
-                document.getElementById('SearchFavorite').checkd = false;
-            }
-        });
-    };
-</script>
-
+        //});*@

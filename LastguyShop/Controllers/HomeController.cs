@@ -13,6 +13,7 @@ namespace LastguyShop.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly LastguyShopContext _lastguyShopContext;
+        private readonly string _documentDirectory = "FileStores";
 
         public HomeController(ILogger<HomeController> logger, LastguyShopContext lastguyShopContext)
         {
@@ -150,6 +151,8 @@ namespace LastguyShop.Controllers
             var supplierModel = new Supplier();
             var productModel = new Product();
             var historyPricdeModel = new HistoryPrice();
+            var fileUploadModel = new FileUpload();
+            var productFileModel = new ProductFile();
 
             if (param.supplier != null)
             {
@@ -199,6 +202,28 @@ namespace LastguyShop.Controllers
                 _lastguyShopContext.SaveChanges();
             }
 
+            if (param.fileUploads != null)
+            {
+                foreach (var fileItem in param.fileUploads)
+                {
+                    fileUploadModel.FolderPath = fileItem.FileName;
+                    fileUploadModel.FileName = fileItem.FileName;
+                    fileUploadModel.FileNameContent = fileItem.FileName;
+                    fileUploadModel.Mimetype = fileItem.FileName;
+                    fileUploadModel.Size = 0;
+                    fileUploadModel.CreatedDate = DateTime.Now;
+                    fileUploadModel.IsDelete = 0;
+                    _lastguyShopContext.FileUploads.Add(fileUploadModel);
+                    _lastguyShopContext.SaveChanges();
+
+                    productFileModel.ProductId = productModel.ProductId;
+                    productFileModel.FileId = fileUploadModel.FileId;
+                    productFileModel.CreatedDate = DateTime.Now;
+                    productFileModel.IsDelete = 0;
+                    _lastguyShopContext.ProductFiles.Add(productFileModel);
+                    _lastguyShopContext.SaveChanges();
+                }
+            }
             //var result = _lastguyShopContext.SaveChanges();
 
             //if (result > 0)
@@ -337,23 +362,26 @@ namespace LastguyShop.Controllers
 
         public IActionResult DeleteProductAction(int productId)
         {
-            var productModel = _lastguyShopContext.Products.Where(i => i.IsDelete == 0 && i.ProductId == productId).FirstOrDefault();
-
-            if (productModel != null)
+            if (productId != 0)
             {
-                //_lastguyShopContext.Products.Remove(productModel);
-                productModel.IsDelete = 1;
-                productModel.ModifiedDate = DateTime.Now;
-                _lastguyShopContext.Products.Update(productModel);
-                var result = _lastguyShopContext.SaveChanges();
+                var productModel = _lastguyShopContext.Products.Where(i => i.IsDelete == 0 && i.ProductId == productId).FirstOrDefault();
 
-                if (result > 0)
+                if (productModel != null)
                 {
-                    return RedirectToAction("ListProduct");
-                }
-                else
-                {
-                    return RedirectToAction("ListProduct");
+                    //_lastguyShopContext.Products.Remove(productModel);
+                    productModel.IsDelete = 1;
+                    productModel.ModifiedDate = DateTime.Now;
+                    _lastguyShopContext.Products.Update(productModel);
+                    var result = _lastguyShopContext.SaveChanges();
+
+                    if (result > 0)
+                    {
+                        return RedirectToAction("ListProduct");
+                    }
+                    else
+                    {
+                        return RedirectToAction("ListProduct");
+                    }
                 }
             }
             return RedirectToAction("ListProduct");
@@ -370,6 +398,16 @@ namespace LastguyShop.Controllers
         }
 
         public IActionResult ManageHistoryPriceAction()
+        {
+
+            return View();
+        }
+
+        #endregion
+
+        #region report
+
+        public IActionResult ReportProductAction()
         {
 
             return View();
