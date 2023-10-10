@@ -89,6 +89,7 @@
                         <th scope="col" style="text-align:center; width:29%;">หมายเหตุ</th> @*width:350px;*@
                         <th scope="col" style="text-align:center; width:10%;">ดูรายละเอียด</th> @*width:150px;*@
                         <th scope="col" style="text-align:center; width:10%;">จัดการสินค้า</th> @*width:150px;*@
+                        <th scope="col" style="text-align:center; width:1.65%;">ถูกใจ</th> @*width:150px;*@
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +117,9 @@
                                         @*<button type="button" class="btn btn-primary text-center">จัดการสินค้า</button>*@
                                     </a>
                                 </td>
+                                <td style="text-align:center">
+                                    <input type="checkbox" onchange="setFavorite(@(productItem.productId))" @(productItem.isFavorite == 1 ? "checked" : "")>
+                                </td>
                             </tr>
                         }
                     }
@@ -131,6 +135,24 @@
     </div>
 </div>
 <script>
+    var setFavorite = function(id){
+        var favoriteStatus = document.getElementById('SearchNearlyOutOfStock').checked;
+        var dataSetFav = {
+            productId: id,
+            favoriteStatus: favoriteStatus
+        };
+        $.ajax({
+            type:"Get",
+            url: "/Home/setFavorite",
+            data: dataSetFav,
+            success:function(response){
+                $("body").html(response);
+            },error:function(error){
+                console.log("error");
+            }
+        });
+    };
+
     var SearchProduct = function(){
 
         var SearchName = document.getElementById('SearchName').value;

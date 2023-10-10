@@ -125,13 +125,26 @@
         <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
     </div>
 </form>
-<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")"></div>
+<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">ราคาย้อนหลัง</h4>
+            </div>
+            <div class="modal-body" id="modal-price-body">
+                
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn button-soft-gray" data-dismiss="modal">ปิด</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
     $('.modal-price').click(function(){
         var url = $('#historyModal').data('url');
         $.get(url,function(data){
-            console.log("data",data);
-            $("#historyModal").html(data);
+            $("#modal-price-body").html(data);
             $("#historyModal").modal('show');
         })
     })

@@ -11,5 +11,6 @@
         public string description { get; set; }
         public string note { get; set; }
         public string supplierName { get; set; }
+        public int? isFavorite { get; set; }
     }
 }

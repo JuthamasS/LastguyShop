@@ -31,5 +31,5 @@ public partial class Product
 
     public int ProductId { get; set; }
 
-    public byte? IsFavorite { get; set; }
+    public int? IsFavorite { get; set; }
 }

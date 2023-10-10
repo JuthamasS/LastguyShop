@@ -24,6 +24,7 @@ namespace LastguyShop.Controllers
             _logger = logger;
             _lastguyShopContext = lastguyShopContext;
         }
+
         #region list
 
         public IActionResult Index()
@@ -52,14 +53,14 @@ namespace LastguyShop.Controllers
 
                 if (isFavorite)
                 {
-                    objectProduct = objectProduct.Where(i => i.Name.Contains(name));
+                    objectProduct = objectProduct.Where(i => i.IsFavorite == 1);
                 }
 
                 foreach (var item in objectProduct)
                 {
                     if (isNearly)
                     {
-                        if (item.TotalAmount > item.SafetyStockNumber)
+                        if (item.TotalAmount <= item.SafetyStockNumber)
                         {
                             objectProductList.Add(new ListProduct
                             {
@@ -69,7 +70,8 @@ namespace LastguyShop.Controllers
                                 totalAmount = item.TotalAmount.HasValue ? item.TotalAmount.Value : 0,
                                 unit = item.Unit,
                                 status = (item.TotalAmount - item.SafetyStockNumber) > 0 ? "ปกติ" : "ใกล้หมด",
-                                note = item.Note
+                                note = item.Note,
+                                isFavorite = item.IsFavorite
                             });
                         }
                     }
@@ -83,7 +85,8 @@ namespace LastguyShop.Controllers
                             totalAmount = item.TotalAmount.HasValue ? item.TotalAmount.Value : 0,
                             unit = item.Unit,
                             status = (item.TotalAmount - item.SafetyStockNumber) > 0 ? "ปกติ" : "ใกล้หมด",
-                            note = item.Note
+                            note = item.Note,
+                            isFavorite = item.IsFavorite
                         });
                     }
 
@@ -92,6 +95,19 @@ namespace LastguyShop.Controllers
             return objectProductList;
         }
 
+        public IActionResult setFavorite(int productId,bool favoriteStatus)
+        {
+            var productModel = _lastguyShopContext.Products.Where(i => i.IsDelete == 0 && i.ProductId == productId).FirstOrDefault();
+            if (productModel != null)
+            {
+                productModel.IsFavorite = (favoriteStatus ? 0 : 1);
+                    
+                _lastguyShopContext.Products.Update(productModel);
+                _lastguyShopContext.SaveChanges();
+            }
+
+            return RedirectToAction("ListProduct", new { name = "", isNearly = false, isFavorite = false });
+        }
         #endregion
 
         #region detail
