@@ -37,7 +37,7 @@
     }
 
     .button-soft-red {
-        background-color: #dc3545
+        background-color: #d13b54
     }
 </style>
 <div class="row">
@@ -51,7 +51,7 @@
     </div>*@
     <div class="col-6">
         <div style="text-align:right; margin-bottom:20px;">
-            <button type="button" class="btn text-center button-soft-red" style="margin-top:20px; width:15%;" onclick="DeleteProduct()">ลบข้อมูล</button>
+            <button class="btn text-center button-soft-red" style="margin-top:20px; width:15%;" onclick="DeleteProduct()">ลบข้อมูล</button>
             <a asp-area="" asp-controller="Home" asp-action="ListProduct">
                 <button type="button" class="btn text-center button-soft-gray" style="margin-top:20px; width:30%;">กลับ</button>
             </a>
@@ -78,7 +78,12 @@
         </div>
         <div class="col-6">
             <label>ราคา :</label>
-            <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="@Model.product.price" />
+            <div class="input-group">
+                <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="@Model.product.price">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary button-soft-gray modal-price" type="button">ย้อนหลัง</button>
+                </div>
+            </div>
 
             <label>จำนวนคงคลังขั้นต่ำ :</label>
             <input class="form-control" type="text" asp-for="product.SafetyStockNumber" placeholder="จำนวนคงคลังขั้นต่ำ" value="@Model.product.SafetyStockNumber" />
@@ -117,12 +122,22 @@
         </div>
     </div>
     <div style="width:100%; text-align:center;">
-        <button type="submit" class="btn btn-primary" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
-        
+        <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
     </div>
 </form>
+<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")"></div>
 <script>
+    $('.modal-price').click(function(){
+        var url = $('#historyModal').data('url');
+        $.get(url,function(data){
+            console.log("data",data);
+            $("#historyModal").html(data);
+            $("#historyModal").modal('show');
+        })
+    })
+
     var DeleteProduct = function(){
+        console.log("DeleteProduct");
         var pName = document.getElementById('productName').value;
         var pId = document.getElementById('productId').value;
         swal({
@@ -144,7 +159,7 @@
                     $.ajax({
                         type: "Post",
                         url: "/Home/DeleteProductAction",
-                        data: dataDelete,0
+                        data: dataDelete,
                         success: function (response) {
                             var dataSearch ={
                                 name:"",
@@ -173,65 +188,3 @@
         });
     };
 </script>
-
-@*<a href="@Url.Action("DeleteProductAction","Home",new {productId=Model.product.productId})" style="text-decoration: none;">
-    <button type="button" class="btn text-center button-soft-red" style="margin-top:20px; width:15%;">ลบข้อมูล</button>
-</a>*@
-
-@*//$.ajax({
-                        //    type: "Get",
-                        //    url: "/Home/ListProduct",
-                        //    data: dataSearch,
-                        //    success: function (response) {
-                        //        $("body").html(response);
-                        //    }, error: function (error) {
-                        //        console.log("error");
-                        //    }
-                        //});
-*@
-        @*        //function (isConfirm) {
-        //    console.log("isConfirm : " + isConfirm);
-        //    var dataDelete = {
-        //        productId: pId
-        //    };
-        //    if (isConfirm) {
-        //        console.log("confirm");
-        //        var dataSearch = {
-        //            name: "",
-        //            isNearly: false,
-        //            isFavorite: false
-        //        };
-        //        $.ajax({
-        //            type: "Post",
-        //            url: "/Home/DeleteProductAction",
-        //            data: dataDelete,
-        //            success: function (response) {
-        //                console.log("success");
-        //                $.ajax({
-        //                    type: "Get",
-        //                    url: "/Home/ListProduct",
-        //                    data: dataSearch,
-        //                    success: function (response) {
-        //                        $("body").html(response);
-        //                    }, error: function (error) {
-        //                        console.log("error");
-        //                    }
-        //                });
-        //            }, error: function (error) {
-        //                console.log("error");
-        //                $.ajax({
-        //                    type: "Get",
-        //                    url: "/Home/ListProduct",
-        //                    data: dataSearch,
-        //                    success: function (response) {
-        //                        $("body").html(response);
-        //                    }, error: function (error) {
-        //                        console.log("error");
-        //                    }
-        //                });
-        //            }
-        //        });
-        //    } else {
-        //        console.log("cancel");
-        //    }
-        //})*@

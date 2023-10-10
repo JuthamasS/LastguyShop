@@ -3,9 +3,13 @@ using LastguyShop.Data.Entities;
 using LastguyShop.Models;
 using LastguyShop.Models.Product;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+//using Microsoft.EntityFrameworkCore;
+using Microsoft.Office.Interop.Excel;
+using Spire.Xls;
 using System.Diagnostics;
-using System.IO.Pipelines;
+using System.Runtime.Intrinsics.X86;
+//using System.IO.Pipelines;
+using _excel = Microsoft.Office.Interop.Excel;
 
 namespace LastguyShop.Controllers
 {
@@ -289,7 +293,7 @@ namespace LastguyShop.Controllers
         public IActionResult ManageProductAction(ManageProduct param)
         {
             var productModel = _lastguyShopContext.Products.Where(i => i.IsDelete == 0 && i.ProductId == param.product.productId).FirstOrDefault();
-            var historyPricdeModel = _lastguyShopContext.HistoryPrices.Where(i => i.IsDelete == 0 && i.HistoryPriceId == param.product.historyPriceId).OrderByDescending(o => o.CreatedDate).FirstOrDefault();
+            //var historyPricdeModel = _lastguyShopContext.HistoryPrices.Where(i => i.IsDelete == 0 && i.HistoryPriceId == productModel.HistoryId).OrderByDescending(o => o.CreatedDate).FirstOrDefault();
             var supplierModel = _lastguyShopContext.Suppliers.Where(i => i.IsDelete == 0 && i.SupplierId == param.supplier.supplierId).FirstOrDefault();
 
             if (supplierModel != null)
@@ -325,9 +329,12 @@ namespace LastguyShop.Controllers
                     {
                         productModel.Price = param.product.price;
 
+                        HistoryPrice historyPricdeModel = new HistoryPrice();
                         historyPricdeModel.Price = param.product.price;
                         historyPricdeModel.Note = "รายละเอียด : " + param.product.description + " หมายเหตุ : " + param.product.note;
+                        historyPricdeModel.CreatedDate = DateTime.Now;
                         historyPricdeModel.ModifiedDate = DateTime.Now;
+                        historyPricdeModel.IsDelete = 0;
                         _lastguyShopContext.HistoryPrices.Add(historyPricdeModel);
                         _lastguyShopContext.SaveChanges();
 
@@ -391,10 +398,9 @@ namespace LastguyShop.Controllers
 
         #region partial price
 
-        public IActionResult ManageHistoryPricePatialView()
+        public IActionResult ManageHistoryPricePartialView()
         {
-
-            return View();
+            return PartialView();
         }
 
         public IActionResult ManageHistoryPriceAction()
@@ -409,8 +415,30 @@ namespace LastguyShop.Controllers
 
         public IActionResult ReportProductAction()
         {
+            //string pathFile = "";
+            //int sheet = 1;
+            //_Application excel = new _excel._Application();
 
-            return View();
+            //Workbook wb;
+            //Worksheet ws;
+            //wb.excel.Workbooks.Open(pathFile);
+            //ws.wb.Worksheets[sheet];
+
+            //string filePath = "C:\\Users\\monal\\source\\repos\\LGShop\\4\\LastguyShop\\LastguyShop\\Documents\\Excel\\ReportProduct.xlsx";
+            //Microsoft.Office.Interop.Excel.Application excel = new Microsoft.Office.Interop.Excel.Application();
+
+            //Workbook wb;
+            //Worksheet ws;
+
+            ////wb = excel.WorkbookOpen();
+            //ws = wb.Worksheets[1];
+
+            //Range cellRange = ws.Range["B1:B2"];
+            //cellRange.value = "ชื่อสินค้า";
+            //wb.SaveAsImage("C:\\Users\\monal\\source\\repos\\LGShop\\4\\LastguyShop\\LastguyShop\\Documents\\Excel\\ReportProduct.xlsx");
+            //wb.Close();
+
+            return RedirectToAction("ListProduct", new { name = "", isNearly = false, isFavorite = false });
         }
 
         #endregion
