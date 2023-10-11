@@ -81,7 +81,12 @@
             <div class="input-group">
                 <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="@Model.product.price">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary button-soft-gray modal-price" type="button">ย้อนหลัง</button>
+                    <button 
+                        class="btn btn-outline-secondary button-soft-gray modal-price" 
+                        type="button" data-toggle="modal"
+                            data-target="#historyModal">
+                        ย้อนหลัง
+                    </button>
                 </div>
             </div>
 
@@ -125,7 +130,7 @@
         <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
     </div>
 </form>
-<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")">
+<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -135,12 +140,12 @@
                 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn button-soft-gray" data-dismiss="modal">ปิด</button>
+                <button type="button" class="btn button-soft-gray close-modal" data-dismiss="modal">ปิด</button>
             </div>
         </div>
     </div>
 </div>
-<script>
+<script type="text/javascript">
     $('.modal-price').click(function(){
         var url = $('#historyModal').data('url');
         $.get(url,function(data){
@@ -149,8 +154,14 @@
         })
     })
 
-    var DeleteProduct = function(){
+    $('.close-modal').click(function () {
         console.log("DeleteProduct");
+        $(".modal-backdrop").remove();
+        $(".show").remove();
+    })
+
+    var DeleteProduct = function(){
+        
         var pName = document.getElementById('productName').value;
         var pId = document.getElementById('productId').value;
         swal({

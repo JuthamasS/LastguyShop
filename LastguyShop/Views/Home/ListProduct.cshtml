@@ -154,8 +154,7 @@
     };
 
     var SearchProduct = function(){
-        console.log("error");
-        console.log(jQuery().jquery);
+
         var SearchName = document.getElementById('SearchName').value;
         var SearchNearlyOutOfStock = document.getElementById('SearchNearlyOutOfStock').checked;
         var SearchFavorite = document.getElementById('SearchFavorite').checked;
@@ -177,36 +176,3 @@
         });
     };
 </script>
-
-       @*         //swal({
-        //    title: "ยืนยันลบรายการสินค้า ",
-        //    text: "ยืนยันลบรายการสินค้า ",
-        //    confirmButtonText: "ใช่",
-        //    type:"warning",
-        //    cancelButtonText: "ใช่",
-        //    showCancelButton:true
-        //},
-        //function(isConfirm){
-        //    if(isConfirm){
-        //        console.log("submit");
-        //            var data = document.getElementById('SearchName123');
-        //            var a = date.val;
-        //            console.log(a);
-        //            $.ajax({
-        //                type:"Post",
-        //                url:"/Home/ListProduct",
-        //                data: dataSearch,
-        //                success:function(response){
-        //                    swal();
-        //                    alert("success");
-        //                    console.log(response);
-        //                },error:function(error){
-        //                    swal();
-        //                    alert("error");
-        //                    console.log(response);
-        //                }
-        //            });
-        //    }else{
-        //        console.log("cancel");
-        //    }
-        //});*@

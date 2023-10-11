@@ -431,6 +431,24 @@ namespace LastguyShop.Controllers
 
         public IActionResult ReportProductAction()
         {
+            //var res = _reportService.GetReport();
+            //if (res.status)
+            //{
+            //    if (res.data != null)
+            //    {
+            //        return Ok(res);
+            //    }
+            //    else
+            //    {
+            //        return NoContent();
+            //    }
+            //}
+            //else
+            //{
+            //    return BadRequest(res);
+            //}
+
+
             //string pathFile = "";
             //int sheet = 1;
             //_Application excel = new _excel._Application();
