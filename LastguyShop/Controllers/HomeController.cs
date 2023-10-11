@@ -4,12 +4,16 @@ using LastguyShop.Models;
 using LastguyShop.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 //using Microsoft.EntityFrameworkCore;
-using Microsoft.Office.Interop.Excel;
-using Spire.Xls;
+//using Microsoft.Office.Interop.Excel;
+//using Spire.Xls;
 using System.Diagnostics;
 using System.Runtime.Intrinsics.X86;
 //using System.IO.Pipelines;
-using _excel = Microsoft.Office.Interop.Excel;
+//using _excel = Microsoft.Office.Interop.Excel;
+//using OfficeOpenXml;
+using ClosedXML.Excel;
+//using DocumentFormat.OpenXml.Drawing.Charts;
+using System.Data;
 
 namespace LastguyShop.Controllers
 {
@@ -431,6 +435,59 @@ namespace LastguyShop.Controllers
 
         public IActionResult ReportProductAction()
         {
+            //DataTable table = DummyDataTableSource();
+            DataTable table = new DataTable();
+
+            table.Columns.Add("Number");
+            table.Columns.Add("ProductName");
+            table.Columns.Add("SaftyNumber");
+            table.Columns.Add("TotalAmount");
+
+
+            DataRow dr1 = table.NewRow();
+            dr1["Number"] = "Number" + 1;
+            dr1["Number"] = "ProductName" + 1;
+            dr1["Number"] = "SaftyNumber" + 1;
+            dr1["Number"] = "TotalAmount" + 1;
+            table.Rows.Add(dr1);
+
+            DataRow dr2 = table.NewRow();
+            dr2["Number"] = "Number" + 2;
+            dr2["Number"] = "ProductName" + 2;
+            dr2["Number"] = "SaftyNumber" + 2;
+            dr2["Number"] = "TotalAmount" + 2;
+            table.Rows.Add(dr2);
+
+            using (XLWorkbook workbook = new XLWorkbook())
+            {
+                table.TableName = "Table 1";
+                workbook.Worksheets.Add(table);
+                workbook.Style.Font.Bold= true;
+                Response.Clear();
+                Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                //Response.("content-disposition","attachment;filename=Dummy Excel Export.xlsx");
+                using (MemoryStream myMemoryStream = new MemoryStream())
+                {
+                    workbook.SaveAs(myMemoryStream);
+                    //myMemoryStream.WriteTo(Response.output);
+                    //Response.End();
+                }
+            }
+            
+
+                //var _excel = _exportExcelService.excelHelper(_unitOfWork, param);
+
+            //    var objectProduct = _lastguyShopContext.Products.Where(i => i.IsDelete == 0).AsEnumerable();
+            //if (objectProduct != null)
+            //{
+            //    foreach (var item in objectProduct)
+            //    {
+            //        if (item.TotalAmount <= item.SafetyStockNumber)
+            //        {
+
+            //        }
+            //    }
+            //}
             //var res = _reportService.GetReport();
             //if (res.status)
             //{
@@ -473,6 +530,32 @@ namespace LastguyShop.Controllers
             //wb.Close();
 
             return RedirectToAction("ListProduct", new { name = "", isNearly = false, isFavorite = false });
+        }
+
+        private static DataTable DummyDataTableSource()
+        {
+            DataTable table = new DataTable();
+            table.Columns.Add("Number");
+            table.Columns.Add("ProductName");
+            table.Columns.Add("SaftyNumber");
+            table.Columns.Add("TotalAmount");
+
+            
+            DataRow dr1 = table.NewRow();
+            dr1["Number"] = "Number" + 1;
+            dr1["Number"] = "ProductName" + 1;
+            dr1["Number"] = "SaftyNumber" + 1;
+            dr1["Number"] = "TotalAmount" + 1;
+            table.Rows.Add(dr1);
+
+            DataRow dr2 = table.NewRow();
+            dr2["Number"] = "Number" + 2;
+            dr2["Number"] = "ProductName" + 2;
+            dr2["Number"] = "SaftyNumber" + 2;
+            dr2["Number"] = "TotalAmount" + 2;
+            table.Rows.Add(dr2);
+
+            return table;
         }
 
         #endregion

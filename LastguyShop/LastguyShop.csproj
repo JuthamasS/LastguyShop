@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.102.1" />
     <PackageReference Include="DocumentFormat.OpenXml" Version="2.20.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
@@ -26,6 +27,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="OfficeOpenXml.Core.ExcelPackage" Version="1.0.0" />
     <PackageReference Include="Spire.PDF" Version="9.9.9" />
     <PackageReference Include="Spire.XLS" Version="13.9.1" />
   </ItemGroup>
@@ -33,7 +36,6 @@
   <ItemGroup>
     <Folder Include="Data\Context\" />
     <Folder Include="Data\Entities\" />
-    <Folder Include="Documents\Excel\" />
   </ItemGroup>
 
 </Project>
