@@ -179,6 +179,7 @@ namespace LastguyShop.Controllers
             var supplierModel = new Supplier();
             var productModel = new Product();
             var historyPricdeModel = new HistoryPrice();
+            var productHistoryPricdeModel = new ProductHistoryPrice();
             var fileUploadModel = new FileUpload();
             var productFileModel = new ProductFile();
 
@@ -230,6 +231,17 @@ namespace LastguyShop.Controllers
                 _lastguyShopContext.SaveChanges();
             }
 
+            if (productModel.ProductId != 0 && historyPricdeModel.HistoryPriceId != 0)
+            {
+                productHistoryPricdeModel.ProductId = productModel.ProductId;
+                productHistoryPricdeModel.HistoryPriceId = historyPricdeModel.HistoryPriceId;
+                productHistoryPricdeModel.CreatedDate = DateTime.Now;
+                productHistoryPricdeModel.IsDelete = 0;
+
+                _lastguyShopContext.ProductHistoryPrices.Add(productHistoryPricdeModel);
+                _lastguyShopContext.SaveChanges();
+            }
+
             if (param.fileUploads != null)
             {
                 foreach (var fileItem in param.fileUploads)
@@ -252,16 +264,6 @@ namespace LastguyShop.Controllers
                     _lastguyShopContext.SaveChanges();
                 }
             }
-            //var result = _lastguyShopContext.SaveChanges();
-
-            //if (result > 0)
-            //{
-            //    return RedirectToAction("ListProduct");
-            //}
-            //else
-            //{
-            //    return RedirectToAction("ListProduct");
-            //}
             return RedirectToAction("ListProduct");
         }
 
