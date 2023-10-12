@@ -14,6 +14,9 @@ using System.Runtime.Intrinsics.X86;
 using ClosedXML.Excel;
 //using DocumentFormat.OpenXml.Drawing.Charts;
 using System.Data;
+using Irony.Parsing;
+using LastguyShop.Models.HistoryPrice;
+using System.Globalization;
 
 namespace LastguyShop.Controllers
 {
@@ -22,6 +25,7 @@ namespace LastguyShop.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly LastguyShopContext _lastguyShopContext;
         private readonly string _documentDirectory = "FileStores";
+        CultureInfo th = new CultureInfo("th-TH");
 
         public HomeController(ILogger<HomeController> logger, LastguyShopContext lastguyShopContext)
         {
@@ -418,9 +422,32 @@ namespace LastguyShop.Controllers
 
         #region partial price
 
-        public IActionResult ManageHistoryPricePartialView()
+        public IActionResult ManageHistoryPricePartialView(int productId)
         {
-            return PartialView();
+            var productHistoryList = _lastguyShopContext.ProductHistoryPrices.Where(i => i.ProductId == productId).OrderByDescending(o => o.CreatedDate).ToList();
+
+            if (productHistoryList != null)
+            {
+                List<ManageHistoryPrice> historyModelList = new List<ManageHistoryPrice>();
+                foreach (var item in productHistoryList)
+                {
+                    var his = _lastguyShopContext.HistoryPrices.Where(i => i.HistoryPriceId == item.HistoryPriceId).FirstOrDefault();
+                    historyModelList.Add(new ManageHistoryPrice
+                    {
+                        historyId = item.HistoryPriceId,
+                        productId = item.ProductId,
+                        price = his.Price.Value,
+                        note = his.Note,
+                        dateUpdate = item.CreatedDate.HasValue ? item.CreatedDate.Value.ToString("d MMM yyyy",th) : "-"
+                    });
+                }
+                
+                return PartialView(historyModelList);
+            }
+            else
+            {
+                return PartialView();
+            }
         }
 
         public IActionResult ManageHistoryPriceAction()

@@ -4,3 +4,33 @@
 @{
 }
 
+@model List<LastguyShop.Models.HistoryPrice.ManageHistoryPrice>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th scope="col" style="text-align:center; width:15%;">ราคา</th>  @*width:20px;*@
+            <th scope="col" style="text-align:center; width:25%;">วันที่แก้ไขข้อมูลล่าสุด</th> @*width:300px;*@
+            <th scope="col" style="text-align:center; width:50%;">หมายเหตุ</th> @*width:70px;*@
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Count > 0)
+        {
+            @foreach (var priceItem in Model)
+            {
+                <tr>
+                    <th style="text-align:center">@priceItem.price บาท</th>
+                    <td style="text-align:center">@priceItem.dateUpdate</td>
+                    <td>@priceItem.note</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <th colspan="3" class="text-center">ไม่มีรายการราคาย้อนหลัง</th>
+            </tr>
+        }
+    </tbody>
+</table>

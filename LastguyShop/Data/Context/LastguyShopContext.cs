@@ -24,6 +24,8 @@ public partial class LastguyShopContext : DbContext
 
     public virtual DbSet<ProductFile> ProductFiles { get; set; }
 
+    public virtual DbSet<ProductHistoryPrice> ProductHistoryPrices { get; set; }
+
     public virtual DbSet<Supplier> Suppliers { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -80,6 +82,13 @@ public partial class LastguyShopContext : DbContext
             entity.ToTable("ProductFile");
 
             entity.Property(e => e.CreatedDate).HasColumnType("date");
+        });
+
+        modelBuilder.Entity<ProductHistoryPrice>(entity =>
+        {
+            entity.ToTable("ProductHistoryPrice");
+
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
         });
 
         modelBuilder.Entity<Supplier>(entity =>

@@ -6,5 +6,6 @@
         public int productId { get; set; }
         public int price { get; set; }
         public string note { get; set; }
+        public string dateUpdate { get; set; }
     }
 }

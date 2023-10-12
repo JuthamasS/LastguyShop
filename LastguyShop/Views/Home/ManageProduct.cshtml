@@ -130,8 +130,8 @@
         <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
     </div>
 </form>
-<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home")" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="historyModal" role="dialog" data-url="@Url.Action("ManageHistoryPricePartialView","Home",new{productId=Model.product.productId})" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title">ราคาย้อนหลัง</h4>
