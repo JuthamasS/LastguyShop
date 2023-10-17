@@ -1,7 +1,9 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
-@model List<LastguyShop.Models.Product.ListProduct>
+@using PagedList;
+@using PagedList.Mvc;
+@model PagedList.IPagedList<LastguyShop.Models.Product.ListProduct>
 @{
     var indexRow = 1;
 }
@@ -131,6 +133,12 @@
                     }
                 </tbody>
             </table>
+            <br />
+            Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+            <div>
+                @*@Html.PagedListPager(Model, page => Url.Action("Home","ListProduct",new { page = page }))*@
+            </div>
+            
         </div>
     </div>
 </div>

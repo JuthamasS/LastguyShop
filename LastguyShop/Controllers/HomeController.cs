@@ -17,6 +17,8 @@ using System.Data;
 using Irony.Parsing;
 using LastguyShop.Models.HistoryPrice;
 using System.Globalization;
+using PagedList;
+using Microsoft.Data.SqlClient;
 
 namespace LastguyShop.Controllers
 {
@@ -40,10 +42,15 @@ namespace LastguyShop.Controllers
             return RedirectToAction("ListProduct",new { name = "", isNearly = false, isFavorite = false });
         }
 
-        public IActionResult ListProduct(string name, bool isNearly, bool isFavorite)
+        public IActionResult ListProduct(string name, bool isNearly, bool isFavorite,int? page)
         {
             var list = SearchProduct(name, isNearly, isFavorite);
-            return View(list);
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 3);
+            var productList = list.ToPagedList(pageNumber, pageSize);
+
+            return View(productList);
         }
 
         public List<ListProduct> SearchProduct(string name, bool isNearly, bool isFavorite)
