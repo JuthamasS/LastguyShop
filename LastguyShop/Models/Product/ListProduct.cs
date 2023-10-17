@@ -2,9 +2,9 @@
 {
     public class ListProduct
     {
-        public int currentPage { get; set; }
-        public int pageCount { get; set; }
-        public List<ProductItem> productList { get; set; }
+        //public int currentPage { get; set; }
+        //public int pageCount { get; set; }
+        //public List<ProductItem> productList { get; set; }
         public int productId { get; set; }
         public string productName { get; set; }
         public int price { get; set; }
