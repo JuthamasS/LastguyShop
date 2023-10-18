@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-<form action="ManageProductAction" method="post">
+<form action="ManageProductAction" method="post" enctype="multipart/form-data">
     <div>
         <h5>ข้อมูลสินค้า</h5>
     </div>
@@ -125,6 +125,12 @@
             <input class="form-control" type="text" asp-for="supplier.officeHours" placeholder="เวลาทำการ" value="@Model.supplier.officeHours" />
             <input type="hidden" asp-for="product.productId" value="@Model.product.productId" id="productId">
         </div>
+    </div>
+    <div style="margin-top: 50px;">
+        <h5>รูปสินค้า</h5>
+    </div>
+    <div>
+        <input type="file" asp-for="fileUpload" class="form-control" />
     </div>
     <div style="width:100%; text-align:center;">
         <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>

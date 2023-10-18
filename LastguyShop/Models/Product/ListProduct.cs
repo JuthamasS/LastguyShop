@@ -15,6 +15,7 @@
         public string note { get; set; }
         public string supplierName { get; set; }
         public int? isFavorite { get; set; }
+        public string filepaht { get; set; }
     }
 
     public class ProductItem

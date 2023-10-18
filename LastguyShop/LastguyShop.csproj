@@ -40,6 +40,7 @@
     <Folder Include="Data\ContextNew\" />
     <Folder Include="Data\Context\" />
     <Folder Include="Data\Entities\" />
+    <Folder Include="Storage\FileUpload\" />
   </ItemGroup>
 
 </Project>

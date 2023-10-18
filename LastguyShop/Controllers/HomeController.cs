@@ -249,27 +249,25 @@ namespace LastguyShop.Controllers
                 _lastguyShopContext.SaveChanges();
             }
 
-            if (param.fileUploads != null)
+            if (param.fileUpload != null)
             {
-                foreach (var fileItem in param.fileUploads)
-                {
-                    fileUploadModel.FolderPath = fileItem.FileName;
-                    fileUploadModel.FileName = fileItem.FileName;
-                    fileUploadModel.FileNameContent = fileItem.FileName;
-                    fileUploadModel.Mimetype = fileItem.FileName;
-                    fileUploadModel.Size = 0;
-                    fileUploadModel.CreatedDate = DateTime.Now;
-                    fileUploadModel.IsDelete = 0;
-                    _lastguyShopContext.FileUploads.Add(fileUploadModel);
-                    _lastguyShopContext.SaveChanges();
+                var fileItem = param.fileUpload;
+                fileUploadModel.FolderPath = fileItem.FileName;
+                fileUploadModel.FileName = fileItem.FileName;
+                fileUploadModel.FileNameContent = fileItem.FileName;
+                fileUploadModel.Mimetype = fileItem.FileName;
+                fileUploadModel.Size = 0;
+                fileUploadModel.CreatedDate = DateTime.Now;
+                fileUploadModel.IsDelete = 0;
+                _lastguyShopContext.FileUploads.Add(fileUploadModel);
+                _lastguyShopContext.SaveChanges();
 
-                    productFileModel.ProductId = productModel.ProductId;
-                    productFileModel.FileId = fileUploadModel.FileId;
-                    productFileModel.CreatedDate = DateTime.Now;
-                    productFileModel.IsDelete = 0;
-                    _lastguyShopContext.ProductFiles.Add(productFileModel);
-                    _lastguyShopContext.SaveChanges();
-                }
+                productFileModel.ProductId = productModel.ProductId;
+                productFileModel.FileId = fileUploadModel.FileId;
+                productFileModel.CreatedDate = DateTime.Now;
+                productFileModel.IsDelete = 0;
+                _lastguyShopContext.ProductFiles.Add(productFileModel);
+                _lastguyShopContext.SaveChanges();
             }
             return RedirectToAction("ListProduct");
         }
@@ -378,16 +376,64 @@ namespace LastguyShop.Controllers
                     _lastguyShopContext.SaveChanges();
                 }
 
-                //var result = _lastguyShopContext.SaveChanges();
+                if (param.fileUpload != null)
+                {
+                    var checkOldFile = _lastguyShopContext.ProductFiles.Where(i => i.ProductId == param.product.productId).ToList();
+                    if (checkOldFile.Count() > 0)
+                    {
+                        foreach (var item in checkOldFile)
+                        {
+                            var p_file = _lastguyShopContext.ProductFiles.Where(i => i.FileId == item.FileId).FirstOrDefault();
+                            var u_file = _lastguyShopContext.FileUploads.Where(i => i.FileId == item.FileId).FirstOrDefault();
 
-                //if (result > 0)
-                //{
-                //    return RedirectToAction("ListProduct");
-                //}
-                //else
-                //{
-                //    return RedirectToAction("ListProduct");
-                //}
+                            u_file.IsDelete = 1;
+                            _lastguyShopContext.FileUploads.Update(u_file);
+                            _lastguyShopContext.SaveChanges();
+
+                            p_file.IsDelete = 1;
+                            _lastguyShopContext.ProductFiles.Update(p_file);
+                            _lastguyShopContext.SaveChanges();
+                        }
+                    }
+
+                    string _dirname = Directory.GetCurrentDirectory();
+                    string _filepath = Path.Combine(_dirname, "Storage\\FileUpload");
+                    var _guid = Guid.NewGuid().ToString("N");
+
+                    if (!Directory.Exists(_filepath))
+                    {
+                        Directory.CreateDirectory(_filepath);
+                    }
+
+                    var _filePathFull = Path.Combine(_filepath, _guid);
+                    var _file = param.fileUpload;
+                    using (var _fileStream = new FileStream(_filePathFull, FileMode.Create))
+                    {
+                        _file.CopyToAsync(_fileStream);
+                        _fileStream.Close();
+                    };
+
+                    var fileUploadModel = new FileUpload();
+                    var productFileModel = new ProductFile();
+
+                    fileUploadModel.FolderPath = _filepath;
+                    fileUploadModel.FileName = _file.FileName;
+                    fileUploadModel.FileNameContent = _guid;
+                    fileUploadModel.Mimetype = param.fileUpload.ContentType;
+                    fileUploadModel.Size = Convert.ToInt32(_file.Length);
+                    fileUploadModel.CreatedDate = DateTime.Now;
+                    fileUploadModel.IsDelete = 0;
+                    _lastguyShopContext.FileUploads.Add(fileUploadModel);
+                    _lastguyShopContext.SaveChanges();
+
+                    productFileModel.ProductId = productModel.ProductId;
+                    productFileModel.FileId = fileUploadModel.FileId;
+                    productFileModel.CreatedDate = DateTime.Now;
+                    productFileModel.IsDelete = 0;
+                    _lastguyShopContext.ProductFiles.Add(productFileModel);
+                    _lastguyShopContext.SaveChanges();
+                }
+
                 return RedirectToAction("ListProduct");
             }
             else
