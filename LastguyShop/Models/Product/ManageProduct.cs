@@ -9,6 +9,7 @@
         public SupplierModel supplier { get; set; } = null;
         public List<PricrModel> price { get; set; } = null;
         public IFormFile fileUpload { get; set; }
+        public string filePath { get; set; }
     }
 
     public class ProductModel

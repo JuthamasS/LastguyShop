@@ -281,9 +281,12 @@ namespace LastguyShop.Controllers
             var objectProduct = _lastguyShopContext.Products.Where(i => i.IsDelete == 0 && i.ProductId == productId).FirstOrDefault();
             var objectPrice = _lastguyShopContext.HistoryPrices.Where(i => i.IsDelete == 0 && i.HistoryPriceId == objectProduct.HistoryId).OrderByDescending(o => o.CreatedDate).FirstOrDefault();
             var objectSupplier = _lastguyShopContext.Suppliers.Where(i => i.IsDelete == 0 && i.SupplierId == objectProduct.SupplierId).FirstOrDefault();
-
+            var objectProductFile = _lastguyShopContext.ProductFiles.Where(i => i.IsDelete == 0 && i.ProductId == productId).FirstOrDefault();
+            
             if (objectProduct != null)
             {
+                var manageModel = new ManageProduct();
+
                 var productModel = new ProductModel()
                 {
                     productId = objectProduct.ProductId,
@@ -295,6 +298,7 @@ namespace LastguyShop.Controllers
                     note = objectProduct.Note,
                     SafetyStockNumber = objectProduct.SafetyStockNumber.HasValue ? objectProduct.SafetyStockNumber.Value : 0
                 };
+                manageModel.product = productModel;
 
                 var supplierModel = new SupplierModel();
                 if (objectSupplier != null)
@@ -307,11 +311,20 @@ namespace LastguyShop.Controllers
                     supplierModel.officeHours = objectSupplier.OfficeHours;
                     supplierModel.workday = objectSupplier.Workday;
                     supplierModel.lineId = objectSupplier.LineId;
+
+                    manageModel.supplier = supplierModel;
                 }
 
-                var manageModel = new ManageProduct();
-                manageModel.product = productModel;
-                manageModel.supplier = supplierModel;
+                if (objectProductFile != null)
+                {
+                    var objectFileUpload = _lastguyShopContext.FileUploads.Where(i => i.IsDelete == 0 && i.FileId == objectProductFile.FileId).FirstOrDefault();
+                    string _dirname = Directory.GetCurrentDirectory();
+                    string _filepath = Path.Combine(_dirname, "Storage\\FileUpload\\");
+                    string _filepathReplace = _filepath.Replace("\\","/");
+                    //var pathStr = "C:/Users/monal/source/repos/LGShop/4/LastguyShop/LastguyShop/Storage/FileUpload/";
+                      
+                    manageModel.filePath = objectFileUpload != null ? _filepathReplace + objectFileUpload.FileNameContent + ".jpg" : _filepathReplace + "not_found.jpg";
+                }
 
                 return View(manageModel);
             }
