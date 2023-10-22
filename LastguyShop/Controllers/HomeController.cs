@@ -46,8 +46,8 @@ namespace LastguyShop.Controllers
         {
             var list = SearchProduct(name, isNearly, isFavorite);
 
-            int pageSize = 3;
-            int pageNumber = (page ?? 3);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
             var productList = list.ToPagedList(pageNumber, pageSize);
 
             return View(productList);
@@ -251,12 +251,28 @@ namespace LastguyShop.Controllers
 
             if (param.fileUpload != null)
             {
-                var fileItem = param.fileUpload;
-                fileUploadModel.FolderPath = fileItem.FileName;
-                fileUploadModel.FileName = fileItem.FileName;
-                fileUploadModel.FileNameContent = fileItem.FileName;
-                fileUploadModel.Mimetype = fileItem.FileName;
-                fileUploadModel.Size = 0;
+                string _dirname = Directory.GetCurrentDirectory();
+                string _filepath = Path.Combine(_dirname, "Storage\\FileUpload");
+                var _guid = Guid.NewGuid().ToString("N");
+
+                if (!Directory.Exists(_filepath))
+                {
+                    Directory.CreateDirectory(_filepath);
+                }
+
+                var _filePathFull = Path.Combine(_filepath, _guid);
+                var _file = param.fileUpload;
+                using (var _fileStream = new FileStream(_filePathFull, FileMode.Create))
+                {
+                    _file.CopyToAsync(_fileStream);
+                    _fileStream.Close();
+                };
+
+                fileUploadModel.FolderPath = _filepath;
+                fileUploadModel.FileName = _file.FileName;
+                fileUploadModel.FileNameContent = _guid;
+                fileUploadModel.Mimetype = param.fileUpload.ContentType;
+                fileUploadModel.Size = Convert.ToInt32(_file.Length);
                 fileUploadModel.CreatedDate = DateTime.Now;
                 fileUploadModel.IsDelete = 0;
                 _lastguyShopContext.FileUploads.Add(fileUploadModel);
