@@ -36,6 +36,11 @@
         background-color: #b8bfba;
     }
 
+    .button-gray {
+        background-color: #e9ecef;
+        border: 1px solid #ced4da;
+    }
+
     .button-soft-red {
         background-color: #d13b54
     }
@@ -82,7 +87,7 @@
                 <input class="form-control" type="text" asp-for="product.price" placeholder="ราคา" value="@Model.product.price">
                 <div class="input-group-append">
                     <button 
-                        class="btn btn-outline-secondary button-soft-gray modal-price" 
+                        class="btn btn-outline-secondary modal-price form-control button-gray" 
                         type="button" data-toggle="modal"
                             data-target="#historyModal">
                         ย้อนหลัง
@@ -129,8 +134,12 @@
     <div style="margin-top: 50px;">
         <h5>รูปสินค้า</h5>
     </div>
-    <div>
-        <input type="file" asp-for="fileUpload" class="form-control" />
+    <div style="padding-right:20px">
+        <input type="file" asp-for="fileUpload" class="form-control" style="width:50%"/>
+    </div>
+    <div style="margin-top:10px">
+        <img src="https://www.w3schools.com/images/lamp.jpg" width="200" height="200" />
+        <img src="Storage/FileUpload/a23ded91000f4a62b7acdf762b668cf8.jpg" width="200" height="200" />
     </div>
     <div style="width:100%; text-align:center;">
         <button type="submit" class="btn button-soft-blue" style="margin-top:20px; text-align:center; width:400px;">บันทึก</button>
