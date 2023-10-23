@@ -45,7 +45,12 @@ namespace LastguyShop.Controllers
             sw.WriteLine(text);
             sw.Close();
 
-            return RedirectToAction("FileManagement");
+            return RedirectToAction("ListOfTextFile");
+        }
+        public IActionResult ListOfTextFile()
+        {
+            List<string> list = new List<string>();
+            return RedirectToAction("FileManagement",list);
         }
 
         public IActionResult BarCode()
