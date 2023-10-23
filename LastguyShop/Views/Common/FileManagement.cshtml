@@ -3,4 +3,10 @@
 *@
 @{
 }
+@model LastguyShop.Models.FileManagement.FileManagementModel
+
 <h1>File Management</h1>
+<form action="SaveToFile" method="post">
+    <textarea class="form-control" asp-for="text" rows="3"></textarea>
+    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+</form>

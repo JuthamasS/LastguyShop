@@ -41,6 +41,7 @@
     <Folder Include="Data\Context\" />
     <Folder Include="Data\Entities\" />
     <Folder Include="Storage\FileUpload\" />
+    <Folder Include="Storage\FileText\" />
   </ItemGroup>
 
 </Project>

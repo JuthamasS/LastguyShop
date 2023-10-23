@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-
+using System.IO;
 
 namespace LastguyShop.Controllers
 {
@@ -28,6 +28,24 @@ namespace LastguyShop.Controllers
         public IActionResult FileManagement()
         {
             return View();
+        }
+
+        public IActionResult SaveToFile(string text)
+        {
+            string _dirname = Directory.GetCurrentDirectory();
+            string _filepath = Path.Combine(_dirname, "Storage\\FileText\\");
+            var _guid = Guid.NewGuid().ToString("N");
+
+            if (!Directory.Exists(_filepath))
+            {
+                Directory.CreateDirectory(_filepath);
+            }
+
+            StreamWriter sw = new StreamWriter(_filepath + _guid + ".txt");
+            sw.WriteLine(text);
+            sw.Close();
+
+            return RedirectToAction("FileManagement");
         }
 
         public IActionResult BarCode()
