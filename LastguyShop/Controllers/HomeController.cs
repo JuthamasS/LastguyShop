@@ -55,7 +55,7 @@ namespace LastguyShop.Controllers
 
         public List<ListProduct> SearchProduct(string name, bool isNearly, bool isFavorite)
         {
-            var objectProduct = _lastguyShopContext.Products.Where(i => i.IsDelete == 0).AsEnumerable();
+            var objectProduct = _lastguyShopContext.Products.Where(i => i.IsDelete == 0).OrderByDescending(o => o.ModifiedDate).AsEnumerable();
             var objectPrice = _lastguyShopContext.HistoryPrices.Where(i => i.IsDelete == 0).OrderByDescending(o => o.CreatedDate).ToList();
             var objectSupplier = _lastguyShopContext.Suppliers.Where(i => i.IsDelete == 0).OrderByDescending(o => o.CreatedDate).ToList();
             var objectProductList = new List<ListProduct>();
@@ -396,6 +396,14 @@ namespace LastguyShop.Controllers
                         historyPricdeModel.ModifiedDate = DateTime.Now;
                         historyPricdeModel.IsDelete = 0;
                         _lastguyShopContext.HistoryPrices.Add(historyPricdeModel);
+                        _lastguyShopContext.SaveChanges();
+
+                        ProductHistoryPrice productHistoryPricdeModel = new ProductHistoryPrice();
+                        productHistoryPricdeModel.ProductId = param.product.productId;
+                        productHistoryPricdeModel.HistoryPriceId = historyPricdeModel.HistoryPriceId;
+                        productHistoryPricdeModel.CreatedDate = DateTime.Now;
+                        productHistoryPricdeModel.IsDelete = 0;
+                        _lastguyShopContext.ProductHistoryPrices.Add(productHistoryPricdeModel);
                         _lastguyShopContext.SaveChanges();
 
                         productModel.HistoryId = historyPricdeModel.HistoryPriceId;

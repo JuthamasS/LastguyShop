@@ -39,6 +39,19 @@
     .button-soft-gray {
         background-color: #b8bfba;
     }
+
+    #content {
+        display: table;
+    }
+
+    #pageFooter {
+        display: table-footer-group;
+    }
+
+    #pageFooter:after {
+        counter-increment: page;
+        content: counter(page);
+    }
 </style>
 <div>
     <h3>รายการสินค้า</h3>
@@ -148,6 +161,10 @@
                          DisplayLinkToNextPage = PagedListDisplayMode.Always,
                          MaximumPageNumbersToDisplay = 3
                      })) *@
+                @*<div id="content">
+                    <div id="pageFooter">Page </div>
+                    multi-page content here...
+                </div>*@
             </div>
             
         </div>
