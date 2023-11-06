@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model LastguyShop.Models.Cashier.ProductCashierModel
+<style>
+    .button-soft-gray {
+        background-color: #b8bfba;
+    }
+</style>
+<div class="row">
+    <div class="col-6">
+    </div>
+    <div class="col-6" style="text-align:right; margin-bottom:20px;">
+        <a asp-area="" asp-controller="Home" asp-action="ListProduct">
+            <button type="button" class="btn text-center button-soft-gray" style="margin-top:20px; width:30%;">กลับ</button>
+        </a>
+    </div>
+</div>
+<div id="inputData">
+    <input class ="form-control" type="text" id="barcodeInput" onchange="checkInputBarcode()" />
+</div>
+
+@*<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">@(Model.productName != "" ? Model.productName : "-")</div>
+            <div class="col-3"><input type="text" class="inputAmount" /></div>
+            <div class="col-3">@(Model.price != 0 ? Model.price : 0)</div>
+        </div>
+    </div>
+</div>*@
+<script>
+    
+    function checkInputBarcode(){
+        var data = setInterval(function () { ObserveInputValue($('#barcodeInput').val()); }, 500);
+        console.log(data);
+        document.getElementById('barcodeInput').value = '';
+    }
+
+    var GetProductData = function (string barcode) {
+
+        var bCode = barcode;
+        $.ajax({
+            type: "Get",
+            url: "/Cashier/GetDataDetail",
+            data: dataDelete,
+            success: function (response) {
+                var dataSearch = {
+                    name: "",
+                    isNearly: false,
+                    isFavorite: false,
+                    page: 1
+                };
+                document.getElementById('inputData').innerHTML += '<div class="card"><div class="card-body"><div class="row" ><div class="col-6" > 123</div><div class="col-3" > <input type="text" class="inputAmount" /> </div><div class="col-3" > 123</div></div></div></div>';
+                //$.ajax({
+                //    type: "Get",
+                //    url: "/Cashier/Index",
+                //    data: dataSearch,
+                //    success: function (response) {
+                //        $("body").html(response);
+                //    }, error: function (error) {
+                //        console.log("error");
+                //    }
+                //});
+            }, error: function (error) {
+                console.log("error");
+            }
+        });
+    };
+</script>
