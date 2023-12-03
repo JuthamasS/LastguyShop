@@ -31,6 +31,8 @@ namespace LastguyShop.Controllers
                 ch.productId = objectProduct.ProductId;
                 ch.productName = objectProduct.Name;
                 ch.price = objectProduct.Price.HasValue ? objectProduct.Price.Value : 0;
+                ch.amount = objectProduct.Price.HasValue ? objectProduct.Price.Value : 0;
+                //ch.cutAmount = objectProduct.cut.HasValue ? objectProduct.Price.Value : 0;
                 return ch;
             }
             else

@@ -21,6 +21,9 @@
 <div id="inputData">
     <input class ="form-control" type="text" id="barcodeInput" onchange="checkInputBarcode()" />
 </div>
+<div id="insertRowData">
+
+</div>
 
 @*<div class="card">
     <div class="card-body">
@@ -53,7 +56,10 @@
                     isFavorite: false,
                     page: 1
                 };
-                document.getElementById('inputData').innerHTML += '<div class="card"><div class="card-body"><div class="row" ><div class="col-6" > 123</div><div class="col-3" > <input type="text" class="inputAmount" /> </div><div class="col-3" > 123</div></div></div></div>';
+                if (response != null) {
+                    
+                    document.getElementById('insertRowData').innerHTML = '<div class="card"><div class="card-body"><div class="row"><div class="col-6">123</div><div class="col-3"><input type="text" class="inputAmount" /></div><div class="col-3">123</div></div></div></div>';
+                }
                 //$.ajax({
                 //    type: "Get",
                 //    url: "/Cashier/Index",
