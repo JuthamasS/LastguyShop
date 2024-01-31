@@ -22,6 +22,7 @@
         public string unit { get; set; }
         public string description { get; set; }
         public string note { get; set; }
+        public string barcode { get; set; }
         public int historyPriceId { get; set; }
     }
 

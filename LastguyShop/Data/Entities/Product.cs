@@ -32,4 +32,6 @@ public partial class Product
     public int ProductId { get; set; }
 
     public int? IsFavorite { get; set; }
+    public int? CutUnit { get; set; }
+    public string? Barcode { get; set; }
 }

@@ -144,6 +144,7 @@ namespace LastguyShop.Controllers
                     unit = objectProduct.Unit,
                     description = objectProduct.Description,
                     note = objectProduct.Note,
+                    barcode = objectProduct.Barcode,
                     SafetyStockNumber = objectProduct.SafetyStockNumber.HasValue ? objectProduct.SafetyStockNumber.Value : 0
                 };
 
@@ -228,6 +229,8 @@ namespace LastguyShop.Controllers
                 productModel.SafetyStockNumber = param.product.SafetyStockNumber;
                 productModel.Description = param.product.description;
                 productModel.Note = param.product.note;
+                productModel.Barcode = param.product.barcode;
+                productModel.CutUnit = 1;
                 productModel.SupplierId = supplierModel.SupplierId;
                 productModel.HistoryId = historyPricdeModel.HistoryPriceId;
                 productModel.CreatedDate = DateTime.Now;
@@ -383,6 +386,7 @@ namespace LastguyShop.Controllers
                     productModel.SafetyStockNumber = param.product.SafetyStockNumber != null ? param.product.SafetyStockNumber : 0;
                     productModel.Description = param.product.description != null ? param.product.description : "-";
                     productModel.Note = param.product.note != null ? param.product.note : "-";
+                    productModel.Barcode = param.product.barcode != null ? param.product.barcode : "";
                     productModel.ModifiedDate = DateTime.Now;
 
                     if (param.product.price != productModel.Price)

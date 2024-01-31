@@ -2,53 +2,113 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var guidTmp = "firstRow";
 }
 @model LastguyShop.Models.Cashier.ProductCashierModel
 <style>
+    table {
+        /*border-collapse: collapse;*/
+        width: 100%;
+    }
+
+    /*th, td {
+                text-align: left;
+                padding: 8px;
+            }*/
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    .noneDeco {
+        text-decoration: none;
+    }
+
+    .button-soft-green {
+        background-color: #8cde98;
+    }
+
+    .button-soft-blue {
+        background-color: #789cd6;
+    }
+
     .button-soft-gray {
         background-color: #b8bfba;
     }
-</style>
-<div class="row">
-    <div class="col-6">
-    </div>
-    <div class="col-6" style="text-align:right; margin-bottom:20px;">
-        <a asp-area="" asp-controller="Home" asp-action="ListProduct">
-            <button type="button" class="btn text-center button-soft-gray" style="margin-top:20px; width:30%;">กลับ</button>
-        </a>
-    </div>
-</div>
-<div id="inputData">
-    <input class ="form-control" type="text" id="barcodeInput" onchange="checkInputBarcode()" />
-</div>
-<div id="insertRowData">
 
-</div>
-
-@*<div class="card">
-    <div class="card-body">
-        <div class="row">
-            <div class="col-6">@(Model.productName != "" ? Model.productName : "-")</div>
-            <div class="col-3"><input type="text" class="inputAmount" /></div>
-            <div class="col-3">@(Model.price != 0 ? Model.price : 0)</div>
-        </div>
-    </div>
-</div>*@
-<script>
-    
-    function checkInputBarcode(){
-        var data = setInterval(function () { ObserveInputValue($('#barcodeInput').val()); }, 500);
-        console.log(data);
-        document.getElementById('barcodeInput').value = '';
+    #content {
+        display: table;
     }
 
-    var GetProductData = function (string barcode) {
+    #pageFooter {
+        display: table-footer-group;
+    }
 
-        var bCode = barcode;
+    #pageFooter:after {
+        counter-increment: page;
+        content: counter(page);
+    }
+
+    .font-red{
+        color:red;
+    }
+</style>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-10">
+                <input placeholder="bar code here . .  ." class="form-control" type="text" id="barcodeInput" />
+            </div>
+            <div class="col-2" style="text-align:center; padding-right:10px">
+                <a asp-area="" asp-controller="Home" asp-action="ListProduct">
+                    <button type="button" class="btn text-center button-soft-gray" style="width:100%;">กลับ</button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card" style="margin-top:20px;">
+    <div class="card-body">
+        <table id="productTable" class="table table-bordered">
+            <thead>
+                <tr>
+                    <th scope="col" style="text-align:center; width:50%;">ชื่อสินค้า</th>
+                    <th scope="col" style="text-align:center; width:15%;">ราคา</th>
+                    <th scope="col" style="text-align:center; width:15%;">จำนวน</th>
+                    <th scope="col" style="text-align:center; width:20%;">รวม(บาท)</th>
+                </tr>
+            </thead>
+            <tbody id="insertRowData">
+                <tr id="firstRow">
+                @*<td style="text-align:center">@productItem.price</td>
+                <td style="text-align:center">@productItem.totalAmount</td>
+                <td style="text-align:center">@productItem.unit</td>
+                <td style="text-align:center">@productItem.status</td>*@
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    var inputBC = document.getElementById("barcodeInput");
+    inputBC.addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            GetProductData(document.getElementById("barcodeInput").value);
+        }
+    });
+
+    var GetProductData = function (code) {
+        
+        var dataSearch = {
+            code: code
+        };
         $.ajax({
             type: "Get",
             url: "/Cashier/GetDataDetail",
-            data: dataDelete,
+            data: dataSearch,
             success: function (response) {
                 var dataSearch = {
                     name: "",
@@ -57,22 +117,65 @@
                     page: 1
                 };
                 if (response != null) {
-                    
-                    document.getElementById('insertRowData').innerHTML = '<div class="card"><div class="card-body"><div class="row"><div class="col-6">123</div><div class="col-3"><input type="text" class="inputAmount" /></div><div class="col-3">123</div></div></div></div>';
+
+                    var rannum = RandomNumber();
+                    var table = document.getElementById("productTable");
+                    var row = table.insertRow(1);
+                    var cell1 = row.insertCell(0);
+                    var cell2 = row.insertCell(1);
+                    var cell3 = row.insertCell(2);
+                    var cell4 = row.insertCell(3);
+                    cell1.innerHTML = response.productName;
+                    cell2.innerHTML = '<input id="Price_' + rannum + '" value="' + response.price + '" />';
+                    cell3.innerHTML = '<input value="' + response.cutAmount + '" id="Amount_' + rannum + '" onchange="CalNewPrice2(event)" />';
+                    cell4.innerHTML = '<input id="TotalPrice_' + rannum + '" value="' + response.price * response.cutAmount + '" />';
+                
+                    document.getElementById('barcodeInput').value = '';
                 }
-                //$.ajax({
-                //    type: "Get",
-                //    url: "/Cashier/Index",
-                //    data: dataSearch,
-                //    success: function (response) {
-                //        $("body").html(response);
-                //    }, error: function (error) {
-                //        console.log("error");
-                //    }
-                //});
             }, error: function (error) {
                 console.log("error");
             }
         });
     };
+
+    var CalNewPrice = function (id,total,price) {
+        
+        var idAmountValue = "amount_" + id;
+        var amt = document.getElementById(idAmountValue).value;
+        if (amt <= total) {
+
+            var newPrice = amt * price;
+            var idPriceValue = "price_" + id;
+            document.getElementById(idPriceValue).innerHTML = '<p>' + newPrice + '</p>';
+        }
+        else{
+
+            document.getElementById(idAmountValue).value = total;
+        }
+    };
+
+    var CalNewPrice2 = function (objectSelected) {
+
+        var selectedID = objectSelected.srcElement.id.split("_");
+        var prc = document.getElementById("Price_" + selectedID[1]).value;
+        var amt = document.getElementById("Amount_" + selectedID[1]).value;
+        document.getElementById("TotalPrice_" + selectedID[1]).value = (prc * amt);
+    };
+
+    function GenerateGUID() {
+        return 'xxxxxxxxxx'
+            .replace(/[xy]/g, function (c) {
+                const r = Math.random() * 16 | 0,
+                    v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+    }
+
+    function RandomNumber() {
+        var min = 1000;
+        var max = 9999;
+        var ranNum = Math.round((Math.random() * (max - min + 1)) + min);
+
+        return Math.round((Math.random() * (max - min + 1)) + min);
+    }
 </script>
