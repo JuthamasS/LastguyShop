@@ -74,9 +74,9 @@
             <thead>
                 <tr>
                     <th scope="col" style="text-align:center; width:50%;">ชื่อสินค้า</th>
-                    <th scope="col" style="text-align:center; width:15%;">ราคา</th>
                     <th scope="col" style="text-align:center; width:15%;">จำนวน</th>
-                    <th scope="col" style="text-align:center; width:20%;">รวม(บาท)</th>
+                    <th scope="col" style="text-align:center; width:15%;">ราคา</th>
+                    <th scope="col" style="text-align:center; width:20%;">จำนวนเงิน</th>
                 </tr>
             </thead>
             <tbody id="insertRowData">
@@ -126,32 +126,28 @@
                     var cell3 = row.insertCell(2);
                     var cell4 = row.insertCell(3);
                     cell1.innerHTML = response.productName;
-                    cell2.innerHTML = '<input id="Price_' + rannum + '" value="' + response.price + '" />';
-                    cell3.innerHTML = '<input value="' + response.cutAmount + '" id="Amount_' + rannum + '" onchange="CalNewPrice2(event)" />';
+                    cell2.innerHTML = '<input value="' + response.cutAmount + '" id="Amount_' + rannum + '" onchange="CalNewPrice2(event)" />';
+                    cell3.innerHTML = '<input id="Price_' + rannum + '" value="' + response.price + '" />';
                     cell4.innerHTML = '<input id="TotalPrice_' + rannum + '" value="' + response.price * response.cutAmount + '" />';
                 
                     document.getElementById('barcodeInput').value = '';
                 }
+                else
+                {
+                    console.log("Not found.");
+                    document.getElementById('barcodeInput').value = '';
+
+                    swal({
+                        icon: "warning",
+                        type: "error",
+                        title: "ไม่พบข้อมูลสินค้า",
+                        showConfirmButton: false,
+                        timer: 900
+                    });
+                }
             }, error: function (error) {
-                console.log("error");
             }
         });
-    };
-
-    var CalNewPrice = function (id,total,price) {
-        
-        var idAmountValue = "amount_" + id;
-        var amt = document.getElementById(idAmountValue).value;
-        if (amt <= total) {
-
-            var newPrice = amt * price;
-            var idPriceValue = "price_" + id;
-            document.getElementById(idPriceValue).innerHTML = '<p>' + newPrice + '</p>';
-        }
-        else{
-
-            document.getElementById(idAmountValue).value = total;
-        }
     };
 
     var CalNewPrice2 = function (objectSelected) {
